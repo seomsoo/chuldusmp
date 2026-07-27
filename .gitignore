@@ -52,3 +52,6 @@ AGENTS.md
 
 # turbopack
 .turbo/
+
+# mcp 도구 아티팩트
+.playwright-mcp/
