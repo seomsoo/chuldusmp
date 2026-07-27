@@ -4,24 +4,30 @@ import Script from "next/script";
 import { SITE } from "@/config/site";
 import "./globals.css";
 
+// 영문 디스플레이용. 대문자 전용 콘덴스드 서체라 브랜드 표기에만 쓴다(본문 금지).
+// 구글 폰트에 400 웨이트 하나뿐이라 굵기는 조절할 수 없다 — 무게감은 크기로 준다.
 const bebasNeue = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
+  display: "swap",
   variable: "--font-bebas-neue",
 });
 
-// TODO(본점): 브리프 확정 후 title/description/keywords/OG 카피 전면 교체
+const TITLE = `${SITE.name} ${SITE.branch} | 두피문신 SMP 전문`;
+const DESCRIPTION =
+  "모근 하나 크기의 점을 두피에 하나씩 새기는 두피문신(SMP). 헤어라인·가르마·정수리·삭발 스타일·흉터 커버까지 두상에 맞춰 작업합니다. 상담은 무료입니다.";
+
 export const metadata: Metadata = {
-  title: `${SITE.name} | 두피문신 SMP 전문`,
-  description: `두피문신(SMP) 전문 ${SITE.name}.`,
+  title: TITLE,
+  description: DESCRIPTION,
   robots: { index: true, follow: true },
   ...(SITE.domain
     ? {
         metadataBase: new URL(SITE.domain),
         alternates: { canonical: SITE.domain },
         openGraph: {
-          title: `${SITE.name} | 두피문신 SMP 전문`,
-          description: `두피문신(SMP) 전문 ${SITE.name}.`,
+          title: TITLE,
+          description: DESCRIPTION,
           type: "website",
           url: SITE.domain,
           locale: "ko_KR",
@@ -45,7 +51,7 @@ const businessJsonLd =
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
         "@id": `${SITE.domain}/#business`,
-        name: SITE.name,
+        name: `${SITE.name} ${SITE.branch}`,
         image: `${SITE.domain}/og-image.jpg`,
         url: SITE.domain,
         telephone: SITE.phone,
@@ -55,14 +61,21 @@ const businessJsonLd =
           streetAddress: SITE.address.street,
           addressLocality: SITE.address.locality,
           addressRegion: SITE.address.region,
-          postalCode: SITE.address.postalCode,
+          // 우편번호는 아직 미정 — 빈 문자열을 내보내면 구조화 데이터가 지저분해진다.
+          ...(SITE.address.postalCode
+            ? { postalCode: SITE.address.postalCode }
+            : {}),
           addressCountry: "KR",
         },
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: SITE.geo.lat,
-          longitude: SITE.geo.lng,
-        },
+        ...(SITE.geo.lat && SITE.geo.lng
+          ? {
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: SITE.geo.lat,
+                longitude: SITE.geo.lng,
+              },
+            }
+          : {}),
         ...(SITE.hours.opens
           ? {
               openingHoursSpecification: {
@@ -85,6 +98,7 @@ const businessJsonLd =
           SITE.links.instagram,
           SITE.links.kakao,
           SITE.links.naverMap,
+          SITE.links.youtube,
         ].filter(Boolean),
         ...(SITE.links.naverMap ? { hasMap: SITE.links.naverMap } : {}),
       }
@@ -96,27 +110,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${bebasNeue.variable} antialiased`}>
+    <html lang="ko" className={bebasNeue.variable}>
       <head>
-        <link
-          rel="preload"
-          href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
-          as="style"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
-        />
+        {/* 구조화 데이터는 실행 코드가 아니라 데이터다. next/script를 쓰면 정적 HTML에
+            ld+json 태그로 박히지 않고 스크립트 로더 큐에 실려 나가므로, Next 공식 권장대로
+            네이티브 <script>로 렌더한다. `<`는 XSS 방지용으로 이스케이프한다. */}
         {businessJsonLd ? (
-          <Script
-            id="business-structured-data"
+          <script
             type="application/ld+json"
-            strategy="beforeInteractive"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(businessJsonLd).replace(/</g, "\\u003c"),
+            }}
           />
         ) : null}
       </head>
-      <body className="min-h-dvh flex flex-col overflow-x-hidden">
+      <body className="flex min-h-dvh flex-col overflow-x-hidden">
         {children}
         {SITE.analytics.ga4Id ? (
           <>

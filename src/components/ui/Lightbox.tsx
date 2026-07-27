@@ -1,30 +1,36 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
+export interface LightboxImage {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  caption?: string;
+}
+
 interface LightboxState {
-  images: string[];
+  items: LightboxImage[];
   index: number;
 }
 
 export function useLightbox() {
   const [lightbox, setLightbox] = useState<LightboxState | null>(null);
 
-  const open = useCallback((images: string[], index = 0) => {
-    setLightbox({ images, index });
+  const open = useCallback((items: LightboxImage[], index = 0) => {
+    setLightbox({ items, index });
   }, []);
 
-  const close = useCallback(() => {
-    setLightbox(null);
-  }, []);
+  const close = useCallback(() => setLightbox(null), []);
 
   const navigate = useCallback((dir: -1 | 1) => {
     setLightbox((prev) => {
       if (!prev) return null;
-      const next = (prev.index + dir + prev.images.length) % prev.images.length;
+      const next = (prev.index + dir + prev.items.length) % prev.items.length;
       return { ...prev, index: next };
     });
   }, []);
@@ -36,20 +42,36 @@ export default function Lightbox({
   lightbox,
   onClose,
   onNavigate,
-  alt = "시술 사진",
 }: {
   lightbox: LightboxState | null;
   onClose: () => void;
   onNavigate: (dir: -1 | 1) => void;
-  alt?: string;
 }) {
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const isOpen = !!lightbox;
+
+  // ESC/화살표 키 조작 + 뒤 배경 스크롤 잠금
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") onNavigate(-1);
+      if (e.key === "ArrowRight") onNavigate(1);
+    };
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [isOpen, onClose, onNavigate]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStart.current = {
-      x: e.touches[0].clientX,
-      y: e.touches[0].clientY,
-    };
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -57,75 +79,84 @@ export default function Lightbox({
     const dx = e.changedTouches[0].clientX - touchStart.current.x;
     const dy = e.changedTouches[0].clientY - touchStart.current.y;
     touchStart.current = null;
-
     if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
-
     onNavigate(dx < 0 ? 1 : -1);
   };
 
+  const item = lightbox?.items[lightbox.index];
+  const many = (lightbox?.items.length ?? 0) > 1;
+
   return (
     <AnimatePresence>
-      {lightbox && (
+      {lightbox && item && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-2 lg:p-5"
           onClick={onClose}
+          role="dialog"
+          aria-modal="true"
+          aria-label="사진 크게 보기"
+          className="fixed inset-0 z-200 flex cursor-zoom-out flex-col items-center justify-center bg-night-deep/95 px-5 py-12 backdrop-blur-sm"
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-50 p-2 text-white/60 transition-colors hover:text-white"
             aria-label="닫기"
+            className="absolute top-4 right-4 z-10 cursor-pointer p-2 text-steel-400 transition-colors hover:text-night-head"
           >
-            <X size={28} />
+            <X size={26} />
           </button>
 
           <div
-            className="flex items-center gap-3"
+            className="flex max-w-full items-center gap-3"
             onClick={(e) => e.stopPropagation()}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            {lightbox.images.length > 1 && (
+            {many && (
               <button
                 onClick={() => onNavigate(-1)}
-                className="hidden cursor-pointer rounded-full bg-white/10 p-3 text-white/70 backdrop-blur-sm transition-all hover:bg-white/20 hover:text-white lg:block"
-                aria-label="이전"
+                aria-label="이전 사진"
+                className="hidden cursor-pointer rounded-full border border-night-text/20 p-3 text-steel-300 transition-colors hover:bg-night-text/10 hover:text-night-head dk:block"
               >
-                <ChevronLeft size={28} />
+                <ChevronLeft size={24} />
               </button>
             )}
 
-            <motion.div
-              key={lightbox.images[lightbox.index]}
-              initial={{ scale: 0.9, opacity: 0 }}
+            <motion.figure
+              key={item.src}
+              initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="relative max-h-[90vh] max-w-[96vw] lg:max-h-[90vh] lg:max-w-[85vw]"
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="m-0 flex min-w-0 cursor-default flex-col items-center"
             >
               <Image
-                src={lightbox.images[lightbox.index]}
-                alt={alt}
-                width={1200}
-                height={900}
-                className="h-auto max-h-[90vh] w-auto rounded-sm object-contain"
-                sizes="(max-width: 1024px) 96vw, 80vw"
+                src={item.src}
+                alt={item.alt}
+                width={item.width}
+                height={item.height}
+                sizes="(max-width: 900px) 90vw, 620px"
+                className="h-auto max-h-[72vh] w-auto max-w-[90vw] border border-night-text/20 object-contain"
               />
-              <p className="mt-2 text-center text-xs text-text-muted lg:mt-3">
-                {lightbox.index + 1} / {lightbox.images.length}
-              </p>
-            </motion.div>
+              {item.caption && (
+                <figcaption className="mt-4 max-w-[620px] text-center text-[13px] leading-relaxed text-steel-300">
+                  {item.caption}
+                </figcaption>
+              )}
+              <span className="mt-3 font-mono text-[10.5px] tracking-[0.2em] text-steel-600">
+                {many ? `${lightbox.index + 1} / ${lightbox.items.length} · ` : ""}
+                ESC TO CLOSE
+              </span>
+            </motion.figure>
 
-            {lightbox.images.length > 1 && (
+            {many && (
               <button
                 onClick={() => onNavigate(1)}
-                className="hidden cursor-pointer rounded-full bg-white/10 p-3 text-white/70 backdrop-blur-sm transition-all hover:bg-white/20 hover:text-white lg:block"
-                aria-label="다음"
+                aria-label="다음 사진"
+                className="hidden cursor-pointer rounded-full border border-night-text/20 p-3 text-steel-300 transition-colors hover:bg-night-text/10 hover:text-night-head dk:block"
               >
-                <ChevronRight size={28} />
+                <ChevronRight size={24} />
               </button>
             )}
           </div>

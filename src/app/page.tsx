@@ -1,15 +1,35 @@
-// 섹션 조립 파일 — 섹션 컴포넌트를 위→아래 순서대로 한 줄씩 추가한다.
-// 예: <Nav /> → <Hero /> → ... → <Footer /> → <MobileCTA />
+import Nav from "@/components/Nav";
+import Hero from "@/components/Hero";
+import Services from "@/components/Services";
+import Gallery from "@/components/Gallery";
+import Reviews from "@/components/Reviews";
+import Founder from "@/components/Founder";
+import Network from "@/components/Network";
+import Academy from "@/components/Academy";
+import Franchise from "@/components/Franchise";
+import Location from "@/components/Location";
+import Consult from "@/components/Consult";
+import Footer from "@/components/Footer";
+import FloatingCTA from "@/components/FloatingCTA";
+
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-4 px-5 text-center">
-      <h1
-        className="text-6xl tracking-widest text-gold"
-        style={{ fontFamily: "var(--font-display)" }}
-      >
-        CHULDU SMP
-      </h1>
-      <p className="text-text-secondary">본점 랜딩페이지 — 섹션 준비 중</p>
-    </main>
+    <>
+      <Nav />
+      <main className="flex-1">
+        <Hero />
+        <Services />
+        <Gallery />
+        <Reviews />
+        <Founder />
+        <Network />
+        <Academy />
+        <Franchise />
+        <Location />
+        <Consult />
+      </main>
+      <Footer />
+      <FloatingCTA />
+    </>
   );
 }

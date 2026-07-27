@@ -10,6 +10,12 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     background_color: "#0a0a0a",
     theme_color: "#0a0a0a",
-    // TODO(본점): 로고 수령 후 src/app/에 icon.png(192x192), apple-icon.png(180x180) 추가하고 icons 배열 채우기
+    // 브라우저 탭·홈화면 아이콘은 src/app/icon.png(+apple-icon.png)이 규약으로 처리하지만,
+    // 매니페스트는 해시 없는 고정 경로가 필요해 public/ 사본을 따로 참조한다.
+    // purpose는 지정하지 않는다 — 여백이 9%뿐이라 maskable로 쓰면 마크가 잘린다.
+    icons: [
+      { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { src: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
   };
 }
