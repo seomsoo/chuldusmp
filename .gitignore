@@ -43,3 +43,12 @@ next-env.d.ts
 # claude
 CLAUDE.md
 AGENTS.md
+.claude/settings.local.json
+
+# editor
+.vscode/
+.idea/
+*.swp
+
+# turbopack
+.turbo/
