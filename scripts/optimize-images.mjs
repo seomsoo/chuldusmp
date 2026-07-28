@@ -24,8 +24,25 @@ const CATEGORIES = {
   대표사진: "ceo",
   시술안내: "procedure",
   아카데미: "academy",
+  원장님: "branch",
   전후사진: "before-after",
   후기: "review",
+};
+
+/**
+ * 카테고리별 파일명 치환 (확장자 제외, 소문자로 비교).
+ * 한글 파일명이 그대로 URL이 되면 퍼센트 인코딩으로 깨져 보여서 지점 영문명으로 바꾼다.
+ * 여기 없는 파일은 원래 이름을 유지한다.
+ */
+const RENAME = {
+  branch: {
+    홍대: "manager-hongdae",
+    강서: "manager-gangseo",
+    안양: "manager-anyang",
+    광주: "manager-gwangju",
+    부산: "manager-busan",
+    la: "manager-la",
+  },
 };
 
 /**
@@ -40,11 +57,36 @@ const RULES = [
   { match: /^franchise-/, quality: 90, maxDim: 1600, kind: "text" },
   { match: /^ceo-career-/, quality: 90, maxDim: 1600, kind: "text" },
   { match: /^ceo-portrait-/, quality: 82, maxDim: 2400, kind: "photo" },
+  { match: /^manager-/, quality: 82, maxDim: 2000, kind: "photo" },
   { match: /^before-after-/, quality: 86, maxDim: 1600, kind: "photo" },
   { match: /^procedure-/, quality: 82, maxDim: 1600, kind: "photo" },
   { match: /^academy-recruit-/, quality: 82, maxDim: 1600, kind: "photo" },
 ];
 const FALLBACK = { quality: 84, maxDim: 1600, kind: "photo" };
+
+/**
+ * 결과 파일명별 사전 크롭 (원본 픽셀 기준, EXIF 회전 적용 후 좌표).
+ *
+ * 지점 카드는 세로 4:5로 자르는데 원장 사진 구도가 제각각이라(전신 / 흉상 / 얼굴 클로즈업)
+ * 그대로 넣으면 한 줄에서 얼굴 크기가 들쭉날쭉하다. 다른 사진과 눈높이를 맞춰야 하는
+ * 것만 여기서 미리 잘라 둔다. 원본은 건드리지 않으므로 값만 고치면 다시 뽑힌다.
+ */
+const CROP = {
+  // 원본 2560x3200 전신샷 → 머리 위 여백부터 상반신까지 (4:5 유지)
+  "manager-hongdae": { left: 630, top: 160, width: 1520, height: 1900 },
+  // 원본 3648x5472 전신샷 → 지점 카드용 상반신. 대표 섹션의 ceo-portrait-02는
+  // 전신 그대로 쓰므로 건드리지 않고 여기서 따로 뽑는다.
+  "manager-gangnam": { left: 460, top: 600, width: 2660, height: 3325 },
+};
+
+/**
+ * 한 원본에서 다른 폴더로 한 장 더 뽑는 경우.
+ * 같은 사진이라도 쓰이는 자리에 따라 필요한 구도가 달라서, 원본을 두 번 읽어
+ * 각각 다른 CROP을 먹인다. 결과 파일명 기준으로 RULES·CROP이 적용된다.
+ */
+const DERIVED = [
+  { from: "대표사진/ceo-portrait-02.jpg", to: "branch/manager-gangnam.webp" },
+];
 
 const IMAGE_EXT = new Set([".jpg", ".jpeg", ".png"]);
 const kb = (n) => `${Math.round(n / 1024)}KB`;
@@ -54,11 +96,16 @@ function ruleFor(basename) {
 }
 
 async function convert(srcPath, destPath) {
-  const base = path.basename(srcPath);
+  // 규칙은 결과 파일명 기준이다 — 원본이 한글이어도 치환된 이름으로 매칭된다.
+  const base = path.basename(destPath);
   const { quality, maxDim, kind } = ruleFor(base);
 
-  const buf = await sharp(srcPath)
-    .rotate() // EXIF 방향 반영 후 메타데이터는 버린다
+  const crop = CROP[path.basename(destPath, ".webp")];
+
+  let pipeline = sharp(srcPath).rotate(); // EXIF 방향 반영 후 메타데이터는 버린다
+  if (crop) pipeline = pipeline.extract(crop); // 크롭은 리사이즈 전 — 원본 해상도에서 잘라야 손실이 없다
+
+  const buf = await pipeline
     .resize({ width: maxDim, height: maxDim, fit: "inside", withoutEnlargement: true })
     .webp({ quality, effort: 6, smartSubsample: true })
     .toBuffer();
@@ -93,7 +140,13 @@ async function main() {
       .sort();
 
     for (const file of files) {
-      const destPath = path.join(to, `${path.basename(file, path.extname(file))}.webp`);
+      // macOS는 한글 파일명을 NFD(자모 분리)로 돌려준다. NFC로 합치지 않으면
+      // "홍대"가 눈에는 같아 보여도 문자열 비교에서 어긋나 치환이 안 된다.
+      const stem = path
+        .basename(file, path.extname(file))
+        .normalize("NFC")
+        .toLowerCase();
+      const destPath = path.join(to, `${RENAME[outDir]?.[stem] ?? stem}.webp`);
       if (!FORCE && existsSync(destPath)) {
         skipped++;
         continue;
@@ -107,6 +160,28 @@ async function main() {
           `(q${r.quality}, ${r.kind})`,
       );
     }
+  }
+
+  for (const { from, to } of DERIVED) {
+    const src = path.join(SRC, from);
+    if (!existsSync(src)) {
+      console.warn(`  건너뜀 (없는 원본): ${from}`);
+      continue;
+    }
+    const destPath = path.join(OUT, to);
+    if (!FORCE && existsSync(destPath)) {
+      skipped++;
+      continue;
+    }
+    await mkdir(path.dirname(destPath), { recursive: true });
+    const r = await convert(src, destPath);
+    rows.push({ ...r, category: path.dirname(to) });
+    console.log(
+      `  ${to.padEnd(52)} ` +
+        `${String(r.width).padStart(4)}x${String(r.height).padEnd(4)} ` +
+        `${kb(r.before).padStart(7)} → ${kb(r.after).padStart(6)}  ` +
+        `(q${r.quality}, ${r.kind}, 파생)`,
+    );
   }
 
   // 영상은 무손실 복사만 한다. 재인코딩이 필요하면 ffmpeg를 별도로 쓴다.

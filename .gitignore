@@ -16,6 +16,9 @@
 # next.js
 /.next/
 /out/
+# 검증용 격리 빌드(distDir 교체). 여기 있는 컴파일 산출물을
+# Tailwind가 소스로 훑으면 깨진 클래스가 섞여 CSS 빌드가 통째로 실패한다.
+/.next-verify/
 
 # production
 /build
@@ -32,6 +35,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# 값이 비어 있는 템플릿은 커밋한다 — 새로 받는 사람이 뭘 채워야 하는지 알아야 한다.
+!.env.example
 
 # vercel
 .vercel
@@ -44,6 +49,9 @@ next-env.d.ts
 CLAUDE.md
 AGENTS.md
 .claude/settings.local.json
+
+# 내부 작업 문서 — 남은 작업·수령 대기 목록이라 레포에 싣지 않는다
+docs/launch-checklist.md
 
 # editor
 .vscode/
