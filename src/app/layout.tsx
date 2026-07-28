@@ -14,8 +14,10 @@ const bebasNeue = Bebas_Neue({
 });
 
 const TITLE = `${SITE.name} ${SITE.branch} | 두피문신 SMP 전문`;
+// 지역 키워드("강남", 역명)를 넣는다 — "강남 두피문신" 류 로컬 검색 대응.
+// 검색 결과에서 잘리지 않게 ~155자 안쪽을 유지할 것.
 const DESCRIPTION =
-  "모근 하나 크기의 점을 두피에 하나씩 새기는 두피문신(SMP). 헤어라인·가르마·정수리·삭발 스타일·흉터 커버까지 두상에 맞춰 작업합니다. 상담은 무료입니다.";
+  "모근 하나 크기의 점을 두피에 하나씩 새기는 두피문신(SMP). 헤어라인·가르마·정수리·삭발 스타일·흉터 커버까지 두상에 맞춰 작업합니다. 강남 압구정로데오역 도보 5분, 상담은 무료입니다.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -34,6 +36,8 @@ export const metadata: Metadata = {
           siteName: SITE.name,
           images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
         },
+        // 제목·설명·이미지는 openGraph에서 상속된다 — 카드 타입만 지정.
+        twitter: { card: "summary_large_image" },
       }
     : {}),
   verification: {
@@ -49,7 +53,8 @@ const businessJsonLd =
   SITE.domain && SITE.phone
     ? {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
+        // LocalBusiness의 하위 타입 — 업종을 구체화하면 로컬 검색 분류에 유리하다.
+        "@type": "HealthAndBeautyBusiness",
         "@id": `${SITE.domain}/#business`,
         name: `${SITE.name} ${SITE.branch}`,
         image: `${SITE.domain}/og-image.jpg`,
@@ -96,6 +101,7 @@ const businessJsonLd =
           : {}),
         sameAs: [
           SITE.links.instagram,
+          SITE.links.instagramWork,
           SITE.links.kakao,
           SITE.links.naverMap,
           SITE.links.youtube,

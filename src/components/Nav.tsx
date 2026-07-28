@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { SITE } from "@/config/site";
 
 const ANCHORS = [
@@ -78,7 +79,7 @@ export default function Nav() {
 
   return (
     <nav
-      className={`nav-bar fixed inset-x-0 top-0 z-120 flex h-[58px] items-center justify-between border-b px-5 backdrop-blur-2xl backdrop-saturate-150 transition-[translate,background-color,border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.32,0.72,0,1)] dk:px-6 ${
+      className={`nav-bar fixed inset-x-0 top-0 z-120 flex h-nav items-center justify-between border-b px-5 backdrop-blur-2xl backdrop-saturate-150 transition-[translate,background-color,border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.32,0.72,0,1)] dk:px-6 ${
         hidden ? "-translate-y-full" : "translate-y-0"
       } ${
         // 최상단에서는 어두운 히어로와의 명암만으로 경계가 서므로 선을 그리지 않는다.
@@ -88,15 +89,30 @@ export default function Nav() {
           : "border-transparent"
       } bg-[#f0f2f4]/90 supports-[backdrop-filter]:bg-[#f0f2f4]/72`}
     >
-      <a
-        href="#hero"
-        onClick={holdVisible}
-        className="flex items-baseline gap-2.5 text-[17px] font-extrabold tracking-[-0.03em] text-ink"
-      >
-        출두
-        <span className="text-[9.5px] font-semibold tracking-[0.34em] text-steel-500">
-          {SITE.brandEn}
-        </span>
+      {/* 정식 로고(대표 제공 누끼, 흑색판 — 골드판은 밝은 바에서 대비가 약해 교체)를
+          가로형으로 재구성 — 세로 락업을 그대로 넣으면 바 높이에 눌려 뭉개진다.
+          같은 PNG에서 出 마크와 "출두" 글자를 잘라(logo-mark/logo-type) 나란히
+          놓았다. HTML 텍스트는 없다. 원본 세로 락업은 public/images/logo.png. */}
+      <a href="#hero" onClick={holdVisible} className="flex items-center gap-2.5">
+        <Image
+          src="/images/logo-mark.png"
+          alt=""
+          width={236}
+          height={228}
+          sizes="46px"
+          priority
+          className="h-[44px] w-auto"
+        />
+        {/* 글자 슬라이스는 원본의 벌어진 자간(84px)을 15px로 좁혀 재합성한 것 */}
+        <Image
+          src="/images/logo-type.png"
+          alt={SITE.name}
+          width={167}
+          height={80}
+          sizes="38px"
+          priority
+          className="h-[18px] w-auto"
+        />
       </a>
 
       <div className="flex items-center gap-6 text-[13px] tracking-[-0.01em]">

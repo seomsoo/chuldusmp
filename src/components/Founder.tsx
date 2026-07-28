@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FOUNDER, CAREERS, POSTERS } from "@/content/founder";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Lightbox, { useLightbox } from "@/components/ui/Lightbox";
-import DragScroller from "@/components/ui/DragScroller";
+import Marquee from "@/components/ui/Marquee";
 import Shot from "@/components/Shot";
 
 export default function Founder() {
@@ -36,7 +36,9 @@ export default function Founder() {
           />
         </div>
 
-        <ScrollReveal className="flex flex-col justify-center px-5 py-[104px] dk:px-16">
+        {/* 모바일은 바로 위가 대표 사진이라 위쪽을 바짝 붙인다(pt-10) —
+            104px를 그대로 두면 사진과 FOUNDER 사이가 뚝 끊긴다. */}
+        <ScrollReveal className="flex flex-col justify-center px-5 pt-10 pb-section dk:px-16 dk:py-[104px]">
           <span className="text-[10px] font-bold tracking-[0.34em] text-steel-500">
             FOUNDER
           </span>
@@ -66,17 +68,20 @@ export default function Founder() {
         </ScrollReveal>
       </div>
 
-      <ScrollReveal className="bg-page px-5 pb-[110px] dk:px-10">
+      <ScrollReveal className="bg-page px-5 pb-section dk:px-10 dk:pb-[110px]">
         <div className="mx-auto max-w-[1240px]">
           <p className="mt-0 mb-[18px] text-[10px] md:pt-6 font-bold tracking-[0.3em] text-steel-500">
             INTERNATIONAL ACTIVITY
           </p>
-          <DragScroller label="대표 대외활동 자료" className="gap-4">
+          {/* 리뷰 마퀴와 한 쌍 — 단 방향을 뒤집는다(reverse). 인접한 두 섹션이
+              같은 방향으로 흐르면 같은 트릭의 반복으로 읽힌다. 15장 × ~276px라
+              한 바퀴가 길어서 리뷰(70s)보다 느긋한 90s. */}
+          <Marquee reverse durationSec={90} className="mx-[calc(50%-50vw)]">
             {POSTERS.map((p, i) => (
               <figure
                 key={p.src}
                 onClick={() => open(POSTERS, i)}
-                className="m-0 w-[min(70vw,260px)] cursor-zoom-in"
+                className="m-0 mr-4 w-[min(70vw,260px)] shrink-0 cursor-zoom-in"
               >
                 <Shot
                   media={p}
@@ -88,7 +93,7 @@ export default function Founder() {
                 </figcaption>
               </figure>
             ))}
-          </DragScroller>
+          </Marquee>
         </div>
       </ScrollReveal>
 

@@ -15,7 +15,7 @@ export default function Location() {
   ].filter((r) => r.href);
 
   return (
-    <section id="location" className="bg-page px-5 py-[118px] dk:px-10">
+    <section id="location" className="bg-page px-5 py-section dk:px-10 dk:py-section-dk">
       <ScrollReveal className="mx-auto max-w-[1240px]">
         <div className="split grid items-start gap-13 dk:grid-cols-[5fr_7fr]">
           <div>

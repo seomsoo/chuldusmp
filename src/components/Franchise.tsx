@@ -11,7 +11,7 @@ export default function Franchise() {
   const { lightbox, open, close, navigate } = useLightbox();
 
   return (
-    <section id="franchise" className="bg-page-alt px-5 py-[118px] dk:px-10">
+    <section id="franchise" className="bg-page-alt px-5 py-section dk:px-10 dk:py-section-dk">
       <ScrollReveal className="mx-auto max-w-[1240px]">
         <span className="text-[10px] font-bold tracking-[0.34em] text-steel-500">
           FRANCHISE
@@ -22,7 +22,10 @@ export default function Franchise() {
           파트너를 찾습니다
         </h2>
         <p className="mt-5 mb-0 max-w-[520px] text-[14.5px] leading-[1.75] text-ink-soft">
-          창업을 준비하시는 분을 위한 안내입니다. {SITE.branch}의 시술
+          창업을 준비하시는 분을 위한 안내입니다.
+          {/* 문장 단위로 끊는다(Network·Services와 같은 규칙). 모바일은 한
+              문장도 한 줄에 안 들어가므로 br을 숨긴다. */}
+          <br className="hidden dk:block" /> {SITE.branch}의 시술
           기준·부자재·교육 체계를 그대로 이관합니다.
         </p>
 

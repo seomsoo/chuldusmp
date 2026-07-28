@@ -27,19 +27,17 @@ export default function Shot({
   media,
   sizes,
   className = "",
-  eager = false,
 }: {
   media: Media;
   /** next/image sizes — 레이아웃에 맞춰 반드시 지정한다. */
   sizes: string;
   className?: string;
-  eager?: boolean;
 }) {
   if (isRedacted(media)) {
     return (
       <div
         style={{ aspectRatio: `${media.width} / ${media.height}` }}
-        className={`flex items-end border border-ink/16 bg-[linear-gradient(150deg,#E8EBEE_0%,#D3D8DE_48%,#EDEFF2_100%)] p-3 ${className}`}
+        className={`steel-plate flex items-end border border-ink/16 p-3 ${className}`}
       >
         <span className="font-mono text-[9.5px] tracking-[0.08em] text-steel-600">
           {assetId(media.src)}
@@ -55,7 +53,7 @@ export default function Shot({
       width={media.width}
       height={media.height}
       sizes={sizes}
-      loading={eager ? "eager" : "lazy"}
+      loading="lazy"
       className={`h-auto w-full ${className}`}
     />
   );

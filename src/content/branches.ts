@@ -9,24 +9,86 @@ export interface Branch {
   note: string;
   tag: string;
   flagship?: boolean;
+  /** 원장 성함. 사진과 짝이 되는 신뢰 요소다. 미정이면 비워 둔다. */
+  manager?: string;
+  /**
+   * 프로필 사진, public 기준 경로.
+   * - 본점(flagship): 세로 2:3 그대로 크롭 없이 들어간다 — 전신이 나온 롱샷을 쓸 것.
+   *   상반신 컷을 넣으면 카드에서 얼굴만 크게 잘려 보인다.
+   * - 지점: 3:4 썸네일로 잘려 들어간다 (얼굴이 위쪽 1/3에 오게 찍힌 사진).
+   *   사진이 없는 지점은 같은 자리에 스틸 플레이스홀더가 들어간다.
+   */
+  photo?: string;
+  /**
+   * 지점 도로명 주소 한 줄. 채우면 카드에서 note(지역) 대신 이게 나온다.
+   * 본점 주소는 여기가 아니라 SITE.address에서 온다(업체 정보 단일 출처).
+   */
+  address?: string;
+  /**
+   * 지점 네이버 플레이스 링크. 채운 지점만 카드 아래에 '길찾기'가 생긴다.
+   * 리뷰·영업시간·예약이 한 곳에 있어서 지도 링크보다 이쪽이 낫다.
+   * naver.me 단축 링크도 그대로 넣으면 된다.
+   */
+  placeUrl?: string;
 }
 
+// TODO(본점): 원장 성함 6곳 미수령 — manager를 채우면 사진 아래에 "OOO 원장"이 붙는다.
+// TODO(본점): 광주 원장 사진, LA 네이버 플레이스 링크 미수령.
 export const BRANCHES: Branch[] = [
-  { ko: "강남본점", en: "GANGNAM · FLAGSHIP", note: "선릉로152길 10, 4층", tag: "HEAD", flagship: true },
-  { ko: "홍대", en: "HONGDAE", note: "서울", tag: "BRANCH" },
-  { ko: "강서", en: "GANGSEO", note: "서울", tag: "BRANCH" },
-  { ko: "안양", en: "ANYANG", note: "경기", tag: "BRANCH" },
-  { ko: "광주", en: "GWANGJU", note: "전남", tag: "BRANCH" },
-  { ko: "부산", en: "BUSAN", note: "경남", tag: "BRANCH" },
-  { ko: "LA", en: "LOS ANGELES", note: "United States", tag: "GLOBAL" },
-];
-
-/** 약식 지도 위 점 위치 (컨테이너 기준 %) */
-export const MAP_DOTS: { x: string; y: string; label: string }[] = [
-  { x: "68%", y: "38%", label: "강남본점" },
-  { x: "62%", y: "52%", label: "홍대" },
-  { x: "58%", y: "64%", label: "강서" },
-  { x: "72%", y: "62%", label: "안양" },
-  { x: "61%", y: "78%", label: "광주" },
-  { x: "78%", y: "80%", label: "부산" },
+  // 본점 사진은 branch/ 상반신 컷이 아니라 ceo/ 전신 롱샷을 쓴다(위 photo 주석 참고).
+  // Founder 섹션이 portrait-03을 쓰므로 여기서는 겹치지 않게 01(수트 컷)을 쓴다.
+  {
+    ko: "강남본점",
+    en: "GANGNAM · FLAGSHIP",
+    note: "선릉로152길 10, 4층",
+    tag: "HEAD",
+    flagship: true,
+    photo: "/images/ceo/ceo-portrait-02.webp",
+  },
+  {
+    ko: "홍대",
+    en: "HONGDAE",
+    note: "서울",
+    tag: "BRANCH",
+    photo: "/images/branch/manager-hongdae.webp",
+    placeUrl: "https://naver.me/GyYWlQmV",
+  },
+  {
+    ko: "강서",
+    en: "GANGSEO",
+    note: "서울",
+    tag: "BRANCH",
+    photo: "/images/branch/manager-gangseo.webp",
+    placeUrl: "https://naver.me/5apMQZwM",
+  },
+  {
+    ko: "안양",
+    en: "ANYANG",
+    note: "경기",
+    tag: "BRANCH",
+    photo: "/images/branch/manager-anyang.webp",
+    placeUrl: "https://naver.me/FFaLIldY",
+  },
+  {
+    ko: "LA",
+    en: "LOS ANGELES",
+    note: "United States",
+    tag: "GLOBAL",
+    photo: "/images/branch/manager-la.webp",
+  },
+  {
+    ko: "부산",
+    en: "BUSAN",
+    note: "경남",
+    tag: "BRANCH",
+    photo: "/images/branch/manager-busan.webp",
+    placeUrl: "https://naver.me/GYGyQiVc",
+  },
+  {
+    ko: "광주",
+    en: "GWANGJU",
+    note: "전남",
+    tag: "BRANCH",
+    placeUrl: "https://naver.me/5hunmeqD",
+  },
 ];

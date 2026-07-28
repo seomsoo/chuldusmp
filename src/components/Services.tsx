@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { SERVICES } from "@/content/services";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Lightbox, { useLightbox } from "@/components/ui/Lightbox";
@@ -14,7 +14,7 @@ export default function Services() {
   const shots = openable(svc.shots);
 
   return (
-    <section id="services" className="bg-page px-5 py-[120px] dk:px-10">
+    <section id="services" className="bg-page px-5 py-section dk:px-10 dk:py-section-dk">
       <ScrollReveal className="mx-auto max-w-[1240px]">
         <div className="split mb-14 grid items-end gap-14 dk:grid-cols-[5fr_7fr]">
           <div>
@@ -75,7 +75,19 @@ export default function Services() {
               {svc.name}
             </h3>
             <p className="mt-[18px] mb-0 max-w-[640px] text-[15px] leading-[1.75] text-ink-soft">
-              {svc.desc}
+              {/* 데스크톱은 문장 단위로 줄을 끊는다 — 흘려 쓰면 "라인을 /
+                  그립니다"처럼 구 중간에서 꺾인다. 모바일은 문장 하나도 한 줄에
+                  안 들어가므로 br을 숨기고 자연 줄바꿈에 맡긴다. */}
+              {svc.desc.split(/(?<=다\.)\s+/).map((sentence, i) => (
+                <Fragment key={sentence}>
+                  {i > 0 && (
+                    <>
+                      <br className="hidden dk:block" />{" "}
+                    </>
+                  )}
+                  {sentence}
+                </Fragment>
+              ))}
             </p>
             <p className="mt-[22px] mb-0 max-w-[600px] border-l-2 border-ink pl-4 text-[16px] leading-[1.6] font-semibold tracking-[-0.02em]">
               {svc.quote}

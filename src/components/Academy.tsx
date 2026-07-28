@@ -1,6 +1,6 @@
 "use client";
 
-import { ACADEMY, ACADEMY_FACTS } from "@/content/academy";
+import { ACADEMY, ACADEMY_FACTS, GRADUATES, RECRUIT } from "@/content/academy";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Lightbox, { useLightbox } from "@/components/ui/Lightbox";
 import DragScroller from "@/components/ui/DragScroller";
@@ -10,7 +10,7 @@ export default function Academy() {
   const { lightbox, open, close, navigate } = useLightbox();
 
   return (
-    <section id="academy" className="bg-page px-5 py-[118px] dk:px-10">
+    <section id="academy" className="bg-page px-5 py-section dk:px-10 dk:py-section-dk">
       <ScrollReveal className="mx-auto max-w-[1240px]">
         <div className="split mb-13 grid items-end gap-14 dk:grid-cols-[7fr_5fr]">
           <div>
@@ -33,7 +33,7 @@ export default function Academy() {
               둘이 한 덩어리로 안 읽히고 따로 노는 것처럼 보인다. */}
           <div className="flex items-baseline gap-2.5">
             <span className="text-[clamp(64px,10vw,132px)] leading-[0.9] font-extrabold tracking-[-0.06em] tabular-nums">
-              450
+              {GRADUATES}
             </span>
             <span className="text-[clamp(22px,2.8vw,38px)] leading-none font-bold tracking-[-0.02em] text-ink-mute">
               명 수료
@@ -75,6 +75,31 @@ export default function Academy() {
             </figure>
           ))}
         </DragScroller>
+
+        {/* 모집 안내 — 커리큘럼(300px)보다 한 단계 작게(240px) 두어 위계를 지킨다.
+            커리큘럼이 "무엇을 배우나", 여기가 "어떻게 들어오나". */}
+        {RECRUIT.length > 0 && (
+          <div className="mt-12">
+            <p className="mt-0 mb-[18px] text-[10px] font-bold tracking-[0.3em] text-steel-500">
+              RECRUIT
+            </p>
+            <DragScroller label="아카데미 모집 안내" className="gap-4">
+              {RECRUIT.map((r, i) => (
+                <figure
+                  key={r.src}
+                  onClick={() => open(RECRUIT, i)}
+                  className="m-0 w-[min(60vw,240px)] cursor-zoom-in"
+                >
+                  <Shot
+                    media={r}
+                    sizes="(max-width: 900px) 60vw, 240px"
+                    className="border border-ink/16"
+                  />
+                </figure>
+              ))}
+            </DragScroller>
+          </div>
+        )}
 
         <div className="mt-11">
           <a

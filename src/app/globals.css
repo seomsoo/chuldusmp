@@ -1,4 +1,11 @@
-@import "tailwindcss";
+/* source(none) — Tailwind의 자동 소스 탐색을 끄고 아래 @source만 훑게 한다.
+   기본값은 프로젝트 전체를 훑는데, .gitignore에 없는 폴더(빌드 산출물, 내려받은
+   자료 등)가 하나라도 생기면 그 안의 컴파일된 덩어리에서 클래스처럼 생긴
+   깨진 문자열을 주워와 CSS 생성이 실패한다. 그러면 재컴파일이 통째로 죽고
+   개발 서버가 계속 옛 화면을 내주기 때문에 원인을 찾기가 아주 어렵다.
+   클래스는 src/ 안에서만 쓰므로 여기만 보면 된다. */
+@import "tailwindcss" source(none);
+@source "../../src/**/*.{ts,tsx}";
 @import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 
 /* 디자인 진입점 — 컬러·타이포·모션 토큰은 전부 여기서 관리한다.
@@ -39,6 +46,14 @@
   /* 디자인 원본의 데스크톱 분기점(901px)을 그대로 쓴다. dk: 접두사로 사용. */
   --breakpoint-dk: 901px;
 
+  /* 고정 내비 높이 — Nav(h-nav)·Hero(pt-nav)·앵커 오프셋(아래 scroll-padding-top)이
+     전부 이 값 하나를 본다. 내비를 키우려면 여기만 바꾼다. */
+  --spacing-nav: 64px;
+  /* 섹션 상하 리듬 — 모바일/데스크톱. py-section dk:py-section-dk 로 쓴다.
+     푸터(고정 CTA 여백)와 Founder 사진 옆 텍스트 블록(사진 밀착)만 예외. */
+  --spacing-section: 76px;
+  --spacing-section-dk: 118px;
+
   --animate-marquee: marquee 40s linear infinite;
   --animate-marquee-reverse: marquee-reverse 40s linear infinite;
 }
@@ -68,6 +83,23 @@
 
 html {
   scroll-behavior: smooth;
+  /* 고정 내비 높이만큼 앵커 착지점을 내린다 —
+     없으면 내비 링크로 이동할 때 섹션 제목이 내비 뒤에 가려진다. */
+  scroll-padding-top: var(--spacing-nav);
+}
+
+/* 다크 면 공용 주사선 — 히어로와 본점 카드가 같은 결을 쓴다(한 브랜드로 읽히게). */
+.scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(184, 190, 198, 0.04) 0 1px,
+    transparent 1px 17px
+  );
+}
+
+/* 사진이 없는 자리의 스틸 플레이트 — Shot 게이트·지점 플레이스홀더 공용. */
+.steel-plate {
+  background-image: linear-gradient(150deg, #e8ebee 0%, #d3d8de 48%, #edeff2 100%);
 }
 
 body {
@@ -78,8 +110,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 한국어 조판: 어절 단위로 끊고, 마지막 줄 고아 단어를 줄인다. */
-h1, h2, h3, p, li, dd {
+/* 한국어 조판: 어절 단위로 끊고, 마지막 줄 고아 단어를 줄인다.
+   figcaption을 빠뜨렸더니 리뷰 인용문이 "자연스/럽더라고요"처럼 단어 중간에서
+   잘렸다 — 한국어 본문이 앉는 요소를 새로 쓰면 여기에도 추가할 것. */
+h1, h2, h3, p, li, dt, dd, figcaption, blockquote {
   word-break: keep-all;
   text-wrap: pretty;
 }
@@ -163,5 +197,13 @@ footer {
      (Tailwind v4는 translate 유틸을 transform이 아니라 translate 속성으로 낸다) */
   .nav-bar {
     translate: none !important;
+  }
+  /* 마퀴: 흐름이 멈추면 잘린 콘텐츠에 접근할 길이 없어진다.
+     복제 절반(아래 첫 자식의 aria-hidden 절반)을 치우고 수동 가로 스크롤로 되돌린다. */
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee > div > [aria-hidden] {
+    display: none;
   }
 }

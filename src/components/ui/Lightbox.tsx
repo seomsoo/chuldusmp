@@ -98,7 +98,7 @@ export default function Lightbox({
           role="dialog"
           aria-modal="true"
           aria-label="사진 크게 보기"
-          className="fixed inset-0 z-200 flex cursor-zoom-out flex-col items-center justify-center bg-night-deep/95 px-5 py-12 backdrop-blur-sm"
+          className="fixed inset-0 z-200 flex cursor-zoom-out flex-col items-center justify-center bg-night-deep/95 px-3 py-10 backdrop-blur-sm"
         >
           <button
             onClick={onClose}
@@ -131,13 +131,17 @@ export default function Lightbox({
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               className="m-0 flex min-w-0 cursor-default flex-col items-center"
             >
+              {/* 확대 크기 상한 — 190px는 위아래 패딩 + 캡션 + ESC 줄 몫이다.
+                  72vh로 뒀더니 "확대해도 안 커진다"는 피드백이 왔다(4:5 사진이
+                  데스크톱 화면 높이의 72%, 모바일에선 52%까지밖에 못 컸다).
+                  svh: 모바일 주소창이 줄어들 때 튀지 않게. */}
               <Image
                 src={item.src}
                 alt={item.alt}
                 width={item.width}
                 height={item.height}
-                sizes="(max-width: 900px) 90vw, 620px"
-                className="h-auto max-h-[72vh] w-auto max-w-[90vw] border border-night-text/20 object-contain"
+                sizes="(max-width: 900px) 96vw, 1000px"
+                className="h-auto max-h-[calc(100svh-190px)] w-auto max-w-[min(96vw,1000px)] border border-night-text/20 object-contain"
               />
               {item.caption && (
                 <figcaption className="mt-4 max-w-[620px] text-center text-[13px] leading-relaxed text-steel-300">

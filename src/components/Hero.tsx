@@ -1,9 +1,13 @@
 import HeroVideo from "@/components/HeroVideo";
+import { BRANCHES } from "@/content/branches";
+import { GRADUATES } from "@/content/academy";
 
+// 지점 수·수료생 수는 원천 데이터에서 파생한다 — 지점이 추가되거나 수료생
+// 숫자가 바뀔 때 여기를 따로 고치지 않아도 배지가 따라온다.
 const BADGES = [
   { value: "10,000건", label: "누적 시술" },
-  { value: "450명", label: "아카데미 수료" },
-  { value: "7개", label: "국내외 지점" },
+  { value: `${GRADUATES}명`, label: "아카데미 수료" },
+  { value: `${BRANCHES.length}개`, label: "국내외 지점" },
   { value: "LA", label: "글로벌 진출" },
 ];
 
@@ -12,15 +16,24 @@ export default function Hero() {
   return (
     <header
       id="hero"
-      className="relative flex min-h-svh flex-col overflow-hidden bg-night px-5 pt-[58px] pb-[62px] dk:px-6 dk:pb-0"
+      className="relative flex min-h-svh flex-col overflow-hidden bg-night px-5 pt-nav pb-[62px] dk:px-6 dk:pb-0"
     >
       {/* blur-[3px]: 영상이 보여야 하므로 아주 살짝만. 디테일의 날만 죽인다.
             글자 가독성은 아래 radial 스크림과 헤드라인 drop-shadow가 책임진다.
           scale-[1.4]: brand.mp4에 위아래 89px씩 검은 레터박스가 구워져 있어 잘라내야 하고
             (1.35배면 충분), 블러가 가장자리를 먹으므로 여유분을 조금 더 준다. */}
+      {/* 포스터는 원본(1600px)이 아니라 전용 828px 리사이즈본 — <video poster>는
+          next/image 최적화를 안 타서 직접 줄여 둔다(sharp로 생성, 10KB).
+          preload: 영상이 붙기 전 첫 페인트의 LCP 후보라 미리 당긴다. */}
+      <link
+        rel="preload"
+        as="image"
+        href="/images/hero-poster.webp"
+        fetchPriority="high"
+      />
       <HeroVideo
         src="/videos/brand.mp4"
-        poster="/images/ceo/ceo-portrait-01.webp"
+        poster="/images/hero-poster.webp"
         className="absolute inset-0 h-full w-full scale-[1.4] object-cover opacity-90 blur-[3px]"
       />
       {/* 화면 전체를 어둡게 덮는 대신, 글자가 앉는 가운데에만 어둠을 고이게 한다.
@@ -28,7 +41,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_62%_46%_at_50%_44%,rgba(15,17,20,.80)_0%,rgba(15,17,20,.52)_52%,transparent_100%)]" />
       {/* 영상 밝기가 구간마다 크게 출렁여서(어두운 컷 ~3, 밝은 컷 ~96) 위아래로 살짝 눌러준다. */}
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(23,25,28,.46)_0%,rgba(23,25,28,.16)_34%,rgba(23,25,28,.22)_62%,rgba(17,19,22,.84)_100%)]" />
-      <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgba(184,190,198,.03)_0_1px,transparent_1px_17px)]" />
+      <div className="scanlines absolute inset-0" />
 
       {/* flex-1 + justify-center: 상단 내비와 하단 숫자 배지 사이 공간의 정가운데에 글자를 둔다 */}
       <div className="hero-in relative mx-auto flex w-full max-w-[1180px] flex-1 flex-col items-center justify-center text-center">

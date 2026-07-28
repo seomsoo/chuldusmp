@@ -4,8 +4,13 @@ export const SITE = {
   name: "출두 SMP",
   brandEn: "CHULDU",
   branch: "강남본점",
+  // 실명 — 사업자 정보 표기(푸터)에만 쓴다. 법정 표기라 활동명으로 바꾸지 않는다.
   owner: "백건휘",
+  // 마케팅 노출용 활동명. 본문·카드 등 사람이 읽는 자리에는 전부 이쪽을 쓴다.
+  ownerDisplay: "백호",
   businessNumber: "329-78-00517",
+  // 카카오톡 채널 표기명(검색 아이디는 @출두smp). 상담 섹션의 채널 행 등에서 쓴다.
+  kakaoChannelName: "출두",
   // 끝에 슬래시를 붙이지 않는다 — 소비처가 `${domain}/sitemap.xml` 처럼 이어 붙인다.
   // Vercel 배포 시 www → apex 리다이렉트를 걸어 canonical과 일치시킬 것.
   domain: "https://chuldusmp.com",
@@ -13,10 +18,13 @@ export const SITE = {
   links: {
     kakao: "https://pf.kakao.com/_VMqqG",
     instagram: "https://www.instagram.com/chuldu_company",
+    // 전후 기록이 올라오는 대표 시술 계정 — 전후 사진 워터마크에 찍힌 그 계정이다.
+    // 회사 계정(instagram)과 용도가 달라 따로 둔다. 갤러리 "더 보기" 카드가 쓴다.
+    instagramWork: "https://www.instagram.com/chuldu_backho",
     naverMap: "https://naver.me/xmBi8dbm",
     naverBooking: "", // 선택 — 없으면 관련 버튼 미출력
-    // 공유 추적 파라미터(?si=)는 떼고 저장한다.
-    youtube: "https://youtu.be/39a_gcNLCCM",
+    // 공유 추적 파라미터(?si=)는 떼고 저장한다. 개별 영상이 아니라 채널 링크.
+    youtube: "https://www.youtube.com/@chuldu_smp",
     kakaoMap: "", // TODO(본점): 카카오맵 길찾기 URL
   },
   address: {
@@ -35,10 +43,11 @@ export const SITE = {
   // (opens와 closes를 같은 값으로 두면 "영업 안 함"으로 읽힌다).
   hours: { opens: "00:00", closes: "23:59", display: "24시간 영업 · 연중무휴" },
   forms: {
-    // TODO(본점): 솔라피(SMS/알림톡) 연동 후 접수 엔드포인트 지정. 예: "/api/consult"
-    // 비어 있어도 상담 폼 UI는 그대로 렌더되지만, 전송은 막고 안내 문구를 띄운다.
+    // 솔라피(SMS/알림톡) 접수 엔드포인트. 실제 발송 설정은 env로 관리한다
+    // (.env.example 참고) — API 키는 이 파일에 절대 넣지 않는다.
+    // 여기를 ""로 되돌리면 폼은 그대로 보이되 전송만 막힌다.
     // (보내지지도 않는데 "접수되었습니다"가 뜨면 문의가 통째로 유실되기 때문이다.)
-    consultEndpoint: "",
+    consultEndpoint: "/api/consult",
   },
   analytics: { ga4Id: "" }, // TODO(본점): 새 GA4 속성 생성 후 입력 (예: "G-XXXXXXXXXX")
   verification: { naver: "", google: "" }, // 배포 후 사이트 인증 코드 입력
