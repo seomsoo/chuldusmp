@@ -44,7 +44,7 @@ export default function Academy() {
         <div className="mb-12 grid grid-cols-2 gap-px border-y border-ink/16 bg-ink/16 dk:grid-cols-4">
           {ACADEMY_FACTS.map((f) => (
             <div key={f.k} className="flex flex-col gap-1.5 bg-page px-5 py-5.5">
-              <span className="text-[16px] font-bold tracking-[-0.025em]">
+              <span className="text-[16px] font-bold tracking-[-0.025em] break-keep">
                 {f.v}
               </span>
               <span className="text-[11.5px] text-steel-600">{f.k}</span>

@@ -4,7 +4,7 @@ import { pick, type Media } from "./media";
 export const FLAGSHIP_SPECS: { k: string; v: string }[] = [
   { k: "운영 기준", v: "강남본점 동일 프로토콜" },
   { k: "부자재", v: "본점 공급 · 단가 동일" },
-  { k: "교육", v: "마스터 아카데미 6주 과정" },
+  { k: "교육", v: "마스터 아카데미 6주 · 9주 과정" },
 ];
 
 // 캡션은 각 브로슈어 페이지의 실제 내용을 확인해 붙였다.

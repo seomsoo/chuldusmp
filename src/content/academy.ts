@@ -6,8 +6,9 @@ import { pick, pickGroup, type Media } from "./media";
 export const GRADUATES = 450;
 
 // 수업 조건은 academy-curriculum-01 카드에 적힌 내용과 일치시킨 값이다.
+// 단, 9주 과정은 카드 인쇄본에 없고 대표 지시로 추가된 표기(2026-07-29).
 export const ACADEMY_FACTS: { v: string; k: string }[] = [
-  { v: "1일 4시간 · 총 6주", k: "수업 일정" },
+  { v: "1일 4시간 · 6주/9주 과정", k: "수업 일정" },
   { v: "최대 2명", k: "소수정예 정원" },
   { v: "올인원 부자재 전량 포함", k: "교육 비용" },
   { v: "월 2기수", k: "개강 주기" },
