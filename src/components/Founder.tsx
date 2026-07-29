@@ -14,25 +14,20 @@ export default function Founder() {
     <section id="about" className="bg-page">
       <div className="split grid items-stretch dk:grid-cols-2">
         {/* 대표 사진은 원본 비율 그대로 contain — 잘리지 않는다.
-            비율은 카탈로그 실측값에서 뽑으므로 사진을 바꿔도 따라간다.
-            모바일은 사진 비율에 딱 맞아 여백이 없고, 데스크톱에서 생기는 좌우 여백은
-            본문 쪽과 같은 page 색으로 채운다. 사진의 스튜디오 배경(#EBEBEB~#F0EFF2)이
-            page(#F2F3F5)와 거의 같아 경계가 드러나지 않는다 — 사진을 배경 톤이 다른
-            것으로 교체하면 이 전제가 깨지므로 다시 확인할 것. */}
-        <div
-          style={
-            {
-              "--portrait-ratio": `${FOUNDER.portrait.width}/${FOUNDER.portrait.height}`,
-            } as React.CSSProperties
-          }
-          className="relative aspect-[var(--portrait-ratio)] overflow-hidden bg-page dk:aspect-auto dk:min-h-[760px]"
-        >
+            모바일 높이는 width/height 고유 크기에서 나온다(fill + aspect-ratio 금지) —
+            구형 iOS WebKit이 aspect-ratio: var(…)를 무시해 컨테이너가 0으로 접히는
+            실기기 사고가 있었다(2026-07-29). 데스크톱만 클래스로 fill을 재현한다.
+            데스크톱에서 생기는 좌우 여백은 본문 쪽과 같은 page 색으로 채운다.
+            사진의 스튜디오 배경(#EBEBEB~#F0EFF2)이 page(#F2F3F5)와 거의 같아
+            경계가 드러나지 않는다 — 배경 톤이 다른 사진으로 교체하면 다시 확인할 것. */}
+        <div className="relative overflow-hidden bg-page dk:min-h-[760px]">
           <Image
             src={FOUNDER.portrait.src}
             alt={FOUNDER.portrait.alt}
-            fill
+            width={FOUNDER.portrait.width}
+            height={FOUNDER.portrait.height}
             sizes="(max-width: 900px) 100vw, 50vw"
-            className="object-contain object-top"
+            className="h-auto w-full dk:absolute dk:inset-0 dk:h-full dk:w-full dk:object-contain dk:object-top"
           />
         </div>
 
@@ -81,13 +76,21 @@ export default function Founder() {
               <figure
                 key={p.src}
                 onClick={() => open(POSTERS, i)}
-                className="m-0 mr-4 w-[min(70vw,260px)] shrink-0 cursor-zoom-in"
+                className="m-0 mr-4 shrink-0 cursor-zoom-in"
               >
-                <Shot
-                  media={p}
-                  sizes="(max-width: 900px) 70vw, 260px"
-                  className="border border-ink/16"
-                />
+                {/* 폭이 아니라 높이를 고정한다(미술관 레일식) — 포스터·현장사진의
+                    비율이 제각각이라 폭 고정이면 아랫단이 들쭉날쭉해진다.
+                    크롭으로 통일하지 않는 이유: 인쇄된 문구가 잘린다. */}
+                <div
+                  style={{ aspectRatio: `${p.width} / ${p.height}` }}
+                  className="h-[280px] dk:h-[340px]"
+                >
+                  <Shot
+                    media={p}
+                    sizes="(max-width: 900px) 80vw, 520px"
+                    className="border border-ink/16"
+                  />
+                </div>
                 <figcaption className="mt-2.5 text-[11.5px] text-ink-mute">
                   {p.caption}
                 </figcaption>
