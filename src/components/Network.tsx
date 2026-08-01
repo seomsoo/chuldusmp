@@ -54,20 +54,22 @@ export default function Network() {
                 전신이 다 나오게 한다 — object-position으로 얼굴만 살리던 이전
                 방식(상반신 컷)은 여기서 다시 쓰지 않는다. */}
             {flagship.photo && (
-              <div className="relative aspect-[2/3] w-full shrink-0 border-b border-night-text/12 dk:aspect-auto dk:w-[380px] dk:border-b-0 dk:border-l">
+              <div className="relative aspect-[2/3] w-full shrink-0 border-b border-night-text/12 dk:aspect-auto dk:w-[410px] dk:border-b-0 dk:border-l">
                 <Image
                   src={flagship.photo}
                   alt={`${flagship.ko} ${SITE.ownerDisplay} 대표`}
                   fill
-                  sizes="(max-width: 900px) 100vw, 380px"
+                  sizes="(max-width: 900px) 100vw, 410px"
                   className="object-cover object-top"
                 />
               </div>
             )}
 
-            {/* min-h 570 × 사진 폭 380 = 정확히 2:3. 사진이 원본 비율 그대로
-                들어가 머리부터 발끝까지 잘리지 않는다. 이 둘은 같이 움직여야 한다. */}
-            <div className="flex flex-1 flex-col justify-between gap-9 px-6 py-8 dk:min-h-[570px] dk:px-11 dk:py-10">
+            {/* min-h 615 × 사진 폭 410 = 정확히 2:3. 사진이 원본 비율 그대로
+                들어가 머리부터 발끝까지 잘리지 않는다. 이 둘은 같이 움직여야 한다.
+                (부원장 플레이트를 키우면서 570×380에서 늘렸다 — 왼쪽 컬럼 내용이
+                min-h를 넘으면 카드가 자라며 전신 사진이 옆으로 잘리기 시작한다.) */}
+            <div className="flex flex-1 flex-col justify-between gap-9 px-6 py-8 dk:min-h-[615px] dk:px-11 dk:py-10">
               <div className="flex items-center gap-3">
                 <span className="font-mono text-[10.5px] tracking-[0.12em] text-steel-400">
                   01
@@ -93,6 +95,36 @@ export default function Network() {
                   <span className="mt-5 block text-[15px] font-bold tracking-[-0.02em] text-night-head">
                     {SITE.ownerDisplay} 대표
                   </span>
+                )}
+
+                {/* 부원장 — 본점에만 있는 서브 프로필. 오른쪽 전신(대표)과 급을
+                    나누기 위해 작은 플레이트 + 직함으로만 둔다.
+                    성함 수령 시 branches.ts의 deputy.name만 채우면 된다. */}
+                {flagship.deputy && (
+                  <div className="mt-7 flex items-center gap-5 border-t border-night-text/12 pt-6">
+                    <span className="relative block h-[120px] w-[90px] shrink-0 overflow-hidden border border-night-text/15 dk:h-[148px] dk:w-[111px]">
+                      <Image
+                        src={flagship.deputy.photo}
+                        alt={`${flagship.ko} ${
+                          flagship.deputy.name ? `${flagship.deputy.name} ` : ""
+                        }부원장`}
+                        fill
+                        sizes="(max-width: 900px) 90px, 111px"
+                        className="object-cover"
+                      />
+                    </span>
+                    <span>
+                      <span className="block text-[16px] font-bold tracking-[-0.02em] text-night-head">
+                        {flagship.deputy.name
+                          ? `${flagship.deputy.name} `
+                          : ""}
+                        부원장
+                      </span>
+                      <span className="font-mono mt-2 block text-[9.5px] tracking-[0.16em] text-steel-400">
+                        DEPUTY DIRECTOR
+                      </span>
+                    </span>
+                  </div>
                 )}
               </div>
 

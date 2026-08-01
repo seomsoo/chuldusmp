@@ -42,6 +42,8 @@ const RENAME = {
     광주: "manager-gwangju",
     부산: "manager-busan",
     la: "manager-la",
+    // 본점 부원장 — 지점 원장이 아니라 본점 카드 안의 서브 프로필로 쓰인다.
+    부원장: "deputy-gangnam",
   },
 };
 
@@ -53,6 +55,7 @@ const RENAME = {
  */
 const RULES = [
   { match: /^academy-curriculum-/, quality: 90, maxDim: 1600, kind: "text" },
+  { match: /^academy-week9-/, quality: 90, maxDim: 1600, kind: "text" },
   { match: /^review-naver-/, quality: 90, maxDim: 2436, kind: "text" },
   { match: /^franchise-/, quality: 90, maxDim: 1600, kind: "text" },
   { match: /^ceo-career-/, quality: 90, maxDim: 1600, kind: "text" },
@@ -74,19 +77,16 @@ const FALLBACK = { quality: 84, maxDim: 1600, kind: "photo" };
 const CROP = {
   // 원본 2560x3200 전신샷 → 머리 위 여백부터 상반신까지 (4:5 유지)
   "manager-hongdae": { left: 630, top: 160, width: 1520, height: 1900 },
-  // 원본 3648x5472 전신샷 → 지점 카드용 상반신. 대표 섹션의 ceo-portrait-02는
-  // 전신 그대로 쓰므로 건드리지 않고 여기서 따로 뽑는다.
-  "manager-gangnam": { left: 460, top: 600, width: 2660, height: 3325 },
 };
 
 /**
  * 한 원본에서 다른 폴더로 한 장 더 뽑는 경우.
  * 같은 사진이라도 쓰이는 자리에 따라 필요한 구도가 달라서, 원본을 두 번 읽어
  * 각각 다른 CROP을 먹인다. 결과 파일명 기준으로 RULES·CROP이 적용된다.
+ * (지점 카드가 본점 상반신 컷을 쓰던 시절 manager-gangnam을 여기서 뽑았다 —
+ *  본점이 ceo/ 전신 컷으로 바뀌면서 2026-08-01 정리.)
  */
-const DERIVED = [
-  { from: "대표사진/ceo-portrait-02.jpg", to: "branch/manager-gangnam.webp" },
-];
+const DERIVED = [];
 
 const IMAGE_EXT = new Set([".jpg", ".jpeg", ".png"]);
 const kb = (n) => `${Math.round(n / 1024)}KB`;

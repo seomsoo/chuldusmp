@@ -30,10 +30,15 @@ export interface Branch {
    * naver.me 단축 링크도 그대로 넣으면 된다.
    */
   placeUrl?: string;
+  /**
+   * 부원장 프로필 — 본점(flagship) 카드 안의 서브 프로필로만 렌더된다.
+   * 지점 카드는 이 필드를 읽지 않는다. name이 비면 직함만 나온다.
+   */
+  deputy?: { name?: string; photo: string };
 }
 
-// TODO(본점): 원장 성함 6곳 미수령 — manager를 채우면 사진 아래에 "OOO 원장"이 붙는다.
-// TODO(본점): 광주 원장 사진, LA 네이버 플레이스 링크 미수령.
+// TODO(본점): 원장 성함 6곳 + 부원장 성함 미수령 — 채우면 "OOO 원장/부원장"이 붙는다.
+// TODO(본점): LA 네이버 플레이스 링크 미수령.
 export const BRANCHES: Branch[] = [
   // 본점 사진은 branch/ 상반신 컷이 아니라 ceo/ 전신 롱샷을 쓴다(위 photo 주석 참고).
   // Founder 섹션이 portrait-03을 쓰므로 여기서는 겹치지 않게 01(수트 컷)을 쓴다.
@@ -44,6 +49,7 @@ export const BRANCHES: Branch[] = [
     tag: "HEAD",
     flagship: true,
     photo: "/images/ceo/ceo-portrait-02.webp",
+    deputy: { photo: "/images/branch/deputy-gangnam.webp" },
   },
   {
     ko: "홍대",
@@ -89,6 +95,7 @@ export const BRANCHES: Branch[] = [
     en: "GWANGJU",
     note: "전남",
     tag: "BRANCH",
+    photo: "/images/branch/manager-gwangju.webp",
     placeUrl: "https://naver.me/5hunmeqD",
   },
 ];
