@@ -19,6 +19,7 @@ export interface AcademyCard extends Media {
   title: string;
 }
 
+// 6주 과정 커리큘럼 카드(01~08)의 순번·제목. 9주 과정은 아래 WEEK9로 별도.
 const STEPS: [string, string][] = [
   ["00", "과정 개요"],
   ["01", "1주차 · 이론과 기기"],
@@ -39,6 +40,12 @@ export const ACADEMY: AcademyCard[] = STEPS.map(([step, title], i) => ({
   step,
   title,
 }));
+
+// 9주 과정 카드뉴스(16~23, 수령 번호순). 6주 커리큘럼과 달리 장별 순번·제목이
+// 없는 통짜 묶음이라 group으로 꺼낸다 — 대표 지시로 추가(2026-08-01).
+export const WEEK9: Media[] = pickGroup(ACADEMY_IMAGES, "academy-week9").map(
+  (m) => ({ ...m, caption: "출두 마스터 아카데미 9주 과정" }),
+);
 
 // 수강생 모집 카드뉴스(09~15). 커리큘럼과 달리 순번·제목이 없는 통짜 묶음이라
 // group 태그로 통째로 꺼낸다 — 카드가 추가되면 images.ts에 group만 달면 따라온다.

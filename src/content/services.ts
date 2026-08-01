@@ -1,4 +1,4 @@
-import { BEFORE_AFTER_IMAGES, PROCEDURE_IMAGES } from "./images";
+import { PROCEDURE_IMAGES } from "./images";
 import { pick, type Media } from "./media";
 
 export interface Service {
@@ -12,8 +12,6 @@ export interface Service {
 
 const p = (file: string, caption: string) =>
   pick(PROCEDURE_IMAGES, file, caption);
-const ba = (file: string, caption: string) =>
-  pick(BEFORE_AFTER_IMAGES, file, caption);
 
 export const SERVICES: Service[] = [
   {
@@ -35,10 +33,13 @@ export const SERVICES: Service[] = [
     en: "PART LINE",
     desc: "가르마를 탔을 때 드러나는 두피를 채웁니다. 기존 모발의 밀도와 색에 맞춰 점 간격을 조절해, 머리를 넘겨도 경계가 보이지 않게 작업합니다.",
     quote: "머리를 넘길 때 가장 먼저 보이는 곳입니다.",
+    // 여성 가르마 전용 카드뉴스로 전체 교체(2026-08-01).
+    // 순서는 수령 번호 기준 2→1→3→4 — 설명 카드를 앞세우라는 대표 지시(2026-08-01).
     shots: [
-      ba("before-after-crown-08", "가르마 · 정수리 전후"),
-      ba("before-after-crown-09", "앞 가르마 전후"),
-      ba("before-after-crown-10", "가르마 옆 근접 전후"),
+      p("procedure-part-line-18", "시술 설명과 결과"),
+      p("procedure-part-line-17", "시술 전후 모음"),
+      p("procedure-part-line-19", "정면 · 정수리 전후"),
+      p("procedure-part-line-20", "시술 장면 · 니들 디테일"),
     ],
   },
   {

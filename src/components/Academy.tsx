@@ -1,6 +1,12 @@
 "use client";
 
-import { ACADEMY, ACADEMY_FACTS, GRADUATES, RECRUIT } from "@/content/academy";
+import {
+  ACADEMY,
+  ACADEMY_FACTS,
+  GRADUATES,
+  RECRUIT,
+  WEEK9,
+} from "@/content/academy";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Lightbox, { useLightbox } from "@/components/ui/Lightbox";
 import DragScroller from "@/components/ui/DragScroller";
@@ -52,7 +58,17 @@ export default function Academy() {
           ))}
         </div>
 
-        <DragScroller label="아카데미 커리큘럼" className="gap-4">
+        {/* 과정이 6주·9주 둘이라 스트립도 둘로 나눈다 — 같은 카드 폭(300px)으로
+            동급 위계, 라벨(CURRICULUM · N주 과정)로만 구분한다. */}
+        <div className="mb-[18px] flex items-baseline gap-3">
+          <span className="text-[10px] font-bold tracking-[0.3em] text-steel-500">
+            CURRICULUM
+          </span>
+          <span className="text-[13.5px] font-extrabold tracking-[-0.02em]">
+            6주 과정
+          </span>
+        </div>
+        <DragScroller label="아카데미 6주 과정 커리큘럼" className="gap-4">
           {ACADEMY.map((a, i) => (
             <figure
               key={a.src}
@@ -75,6 +91,34 @@ export default function Academy() {
             </figure>
           ))}
         </DragScroller>
+
+        {WEEK9.length > 0 && (
+          <div className="mt-12">
+            <div className="mb-[18px] flex items-baseline gap-3">
+              <span className="text-[10px] font-bold tracking-[0.3em] text-steel-500">
+                CURRICULUM
+              </span>
+              <span className="text-[13.5px] font-extrabold tracking-[-0.02em]">
+                9주 과정
+              </span>
+            </div>
+            <DragScroller label="아카데미 9주 과정 커리큘럼" className="gap-4">
+              {WEEK9.map((w, i) => (
+                <figure
+                  key={w.src}
+                  onClick={() => open(WEEK9, i)}
+                  className="m-0 w-[min(74vw,300px)] cursor-zoom-in"
+                >
+                  <Shot
+                    media={w}
+                    sizes="(max-width: 900px) 74vw, 300px"
+                    className="border border-ink/16"
+                  />
+                </figure>
+              ))}
+            </DragScroller>
+          </div>
+        )}
 
         {/* 모집 안내 — 커리큘럼(300px)보다 한 단계 작게(240px) 두어 위계를 지킨다.
             커리큘럼이 "무엇을 배우나", 여기가 "어떻게 들어오나". */}

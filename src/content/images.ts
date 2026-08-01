@@ -308,6 +308,36 @@ export const PROCEDURE_IMAGES: readonly SiteImage[] = [
     alt: "남성 헤어라인 두피문신의 디자인 드로잉, 니들 작업, 상담 과정 사진",
     group: "hairline",
   },
+  // 여성 가르마 카드뉴스 4장 (2026-08-01 수령, 여성가르마_수정 폴더).
+  // 시술 섹션 02 가르마 라인이 전후사진(crown)을 빌려 쓰던 것을 이걸로 교체했다.
+  {
+    src: "/images/procedure/procedure-part-line-17.webp",
+    width: 1080,
+    height: 1350,
+    alt: "여성 가르마 두피문신 시술 전후 사진을 모은 표지 이미지",
+    group: "part-line",
+  },
+  {
+    src: "/images/procedure/procedure-part-line-18.webp",
+    width: 1080,
+    height: 1350,
+    alt: "여성 가르마 두피문신 시술 설명과 시술 후 정수리 사진",
+    group: "part-line",
+  },
+  {
+    src: "/images/procedure/procedure-part-line-19.webp",
+    width: 1080,
+    height: 1350,
+    alt: "여성 가르마 두피문신 정면·정수리의 시술 전후 비교",
+    group: "part-line",
+  },
+  {
+    src: "/images/procedure/procedure-part-line-20.webp",
+    width: 1080,
+    height: 1350,
+    alt: "여성 가르마 두피문신 시술 장면과 니들 근접 사진",
+    group: "part-line",
+  },
 ];
 
 /** 아카데미 — 커리큘럼 8장(master-class-curriculum)과 모집 카드뉴스 7장(academy-recruit) */
@@ -416,6 +446,63 @@ export const ACADEMY_IMAGES: readonly SiteImage[] = [
     height: 1080,
     alt: "시술 장면 위에 출두 브랜드 슬로건을 얹은 아카데미 마무리 이미지",
     group: "academy-recruit",
+  },
+  // 9주 과정 카드뉴스 8장 (2026-08-01 수령, 9주차 폴더 번호순 16~23)
+  {
+    src: "/images/academy/academy-week9-16.webp",
+    width: 1080,
+    height: 1080,
+    alt: "SMP 마스터 클래스 실습 지도 현장을 모은 9주 과정 표지 이미지",
+    group: "academy-week9",
+  },
+  {
+    src: "/images/academy/academy-week9-17.webp",
+    width: 1080,
+    height: 1080,
+    alt: "9주 과정 커리큘럼 개요 — 1~3주차 이론·실습, 4~9주차 데모실습 안내",
+    group: "academy-week9",
+  },
+  {
+    src: "/images/academy/academy-week9-18.webp",
+    width: 1080,
+    height: 1080,
+    alt: "출두 아카데미 커리큘럼 — 기초 교육, 데모 실습, 마케팅 교육 안내",
+    group: "academy-week9",
+  },
+  {
+    src: "/images/academy/academy-week9-19.webp",
+    width: 1080,
+    height: 1080,
+    alt: "출두 아카데미 커리큘럼 — 밀도 보강, 헤어라인·구레나룻 집중 교육 안내",
+    group: "academy-week9",
+  },
+  {
+    src: "/images/academy/academy-week9-20.webp",
+    width: 1080,
+    height: 1080,
+    alt: "데모 실습 교육 — 촬영, 커트, 디자인 실습 안내",
+    group: "academy-week9",
+  },
+  {
+    src: "/images/academy/academy-week9-21.webp",
+    width: 1080,
+    height: 1080,
+    alt: "데모 실습 교육 — 데모 모델 실습, 포트폴리오, 창업 교육 안내",
+    group: "academy-week9",
+  },
+  {
+    src: "/images/academy/academy-week9-22.webp",
+    width: 1080,
+    height: 1080,
+    alt: "출두 아카데미 수강 혜택 여섯 가지 안내",
+    group: "academy-week9",
+  },
+  {
+    src: "/images/academy/academy-week9-23.webp",
+    width: 1080,
+    height: 1080,
+    alt: "수료증을 든 출두 아카데미 수료생 단체 사진 모음",
+    group: "academy-week9",
   },
 ];
 
