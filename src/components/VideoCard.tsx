@@ -58,6 +58,9 @@ export default function VideoCard({
       aria-label={`${video.label} 소리 켜고 크게 보기`}
       className={`block shrink-0 cursor-pointer overflow-hidden border p-0 text-left ${className}`}
     >
+      {/* preload="none": metadata로 두면 크롬이 화면 밖 카드까지 수십 MB를
+          앞당겨 버퍼링한다(실측: 첫 로드 47MB). 포스터가 첫 화면을 책임지고,
+          영상 데이터는 보여서 play()될 때 그때 받는다. */}
       <video
         ref={ref}
         src={video.src}
@@ -65,7 +68,7 @@ export default function VideoCard({
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="none"
         className="aspect-[9/16] w-full object-cover"
       />
     </button>
