@@ -244,9 +244,10 @@ export default function Consult() {
                   <span className="font-semibold">{SITE.kakaoChannelName}</span>
                 </a>
               )}
-              {SITE.links.instagram && (
+              {/* 상담 유도는 회사 계정이 아니라 시술 계정(backho)으로 — 대표 요청(2026-08-03) */}
+              {SITE.links.instagramWork && (
                 <a
-                  href={SITE.links.instagram}
+                  href={SITE.links.instagramWork}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-between rounded-[2px] border border-ink/34 px-5 py-[15px] text-[14.5px] font-bold transition-colors hover:bg-ink hover:text-page"
@@ -254,7 +255,11 @@ export default function Consult() {
                   인스타그램
                   {/* 핸들은 URL에서 파생 — 계정을 바꾸면 site.ts 한 곳만 고치면 된다 */}
                   <span className="font-semibold">
-                    @{new URL(SITE.links.instagram).pathname.replaceAll("/", "")}
+                    @
+                    {new URL(SITE.links.instagramWork).pathname.replaceAll(
+                      "/",
+                      "",
+                    )}
                   </span>
                 </a>
               )}
