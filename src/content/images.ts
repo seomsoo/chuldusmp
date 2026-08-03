@@ -194,6 +194,13 @@ export const CEO_IMAGES: readonly SiteImage[] = [
     height: 2400,
     alt: "흰 배경에서 검정 코트를 걸치고 카메라를 응시하는 출두 SMP 대표원장 반신 프로필",
   },
+  // 지점(Network) 본점 카드용으로 수령(2026-08-03). 앞 셋과 달리 4:5 상반신 컷.
+  {
+    src: "/images/ceo/ceo-portrait-04.webp",
+    width: 1122,
+    height: 1402,
+    alt: "회색 스튜디오 배경에서 흰 셔츠에 넥타이를 맨 출두 SMP 대표원장 프로필",
+  },
 ];
 
 /** 시술 안내 카드뉴스 — group이 시술 종류다 */

@@ -40,16 +40,33 @@ export interface Branch {
 // TODO(본점): 원장 성함 6곳 + 부원장 성함 미수령 — 채우면 "OOO 원장/부원장"이 붙는다.
 // TODO(본점): LA 네이버 플레이스 링크 미수령.
 export const BRANCHES: Branch[] = [
-  // 본점 사진은 branch/ 상반신 컷이 아니라 ceo/ 전신 롱샷을 쓴다(위 photo 주석 참고).
-  // Founder 섹션이 portrait-03을 쓰므로 여기서는 겹치지 않게 01(수트 컷)을 쓴다.
+  // 본점 사진은 대표 지정 컷(2026-08-03 수령, portrait-04 셔츠+넥타이, 4:5)을 쓴다.
+  // Network의 사진 컨테이너가 이 비율(4:5)에 맞춰져 있다 — 비율이 다른 사진으로
+  // 갈아끼우면 크롭·화질 저하가 생기니 컨테이너도 같이 손볼 것.
   {
     ko: "강남본점",
     en: "GANGNAM · FLAGSHIP",
     note: "선릉로152길 10, 4층",
     tag: "HEAD",
     flagship: true,
-    photo: "/images/ceo/ceo-portrait-02.webp",
+    photo: "/images/ceo/ceo-portrait-04.webp",
     deputy: { photo: "/images/branch/deputy-gangnam.webp" },
+  },
+  // 지점 순서는 LA → 광주 → 홍대 → 안양 → 강서 → 부산 — 대표 지정(2026-08-03).
+  {
+    ko: "LA",
+    en: "LOS ANGELES",
+    note: "United States",
+    tag: "GLOBAL",
+    photo: "/images/branch/manager-la.webp",
+  },
+  {
+    ko: "광주",
+    en: "GWANGJU",
+    note: "전남",
+    tag: "BRANCH",
+    photo: "/images/branch/manager-gwangju.webp",
+    placeUrl: "https://naver.me/5hunmeqD",
   },
   {
     ko: "홍대",
@@ -60,14 +77,6 @@ export const BRANCHES: Branch[] = [
     placeUrl: "https://naver.me/GyYWlQmV",
   },
   {
-    ko: "강서",
-    en: "GANGSEO",
-    note: "서울",
-    tag: "BRANCH",
-    photo: "/images/branch/manager-gangseo.webp",
-    placeUrl: "https://naver.me/5apMQZwM",
-  },
-  {
     ko: "안양",
     en: "ANYANG",
     note: "경기",
@@ -76,11 +85,12 @@ export const BRANCHES: Branch[] = [
     placeUrl: "https://naver.me/FFaLIldY",
   },
   {
-    ko: "LA",
-    en: "LOS ANGELES",
-    note: "United States",
-    tag: "GLOBAL",
-    photo: "/images/branch/manager-la.webp",
+    ko: "강서",
+    en: "GANGSEO",
+    note: "서울",
+    tag: "BRANCH",
+    photo: "/images/branch/manager-gangseo.webp",
+    placeUrl: "https://naver.me/5apMQZwM",
   },
   {
     ko: "부산",
@@ -89,13 +99,5 @@ export const BRANCHES: Branch[] = [
     tag: "BRANCH",
     photo: "/images/branch/manager-busan.webp",
     placeUrl: "https://naver.me/GYGyQiVc",
-  },
-  {
-    ko: "광주",
-    en: "GWANGJU",
-    note: "전남",
-    tag: "BRANCH",
-    photo: "/images/branch/manager-gwangju.webp",
-    placeUrl: "https://naver.me/5hunmeqD",
   },
 ];
