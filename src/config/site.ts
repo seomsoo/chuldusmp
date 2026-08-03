@@ -50,11 +50,11 @@ export const SITE = {
     consultEndpoint: "/api/consult",
   },
   analytics: { ga4Id: "" }, // TODO(본점): 새 GA4 속성 생성 후 입력 (예: "G-XXXXXXXXXX")
-  // 네이버 서치어드바이저 소유확인 메타태그 (2026-08-03 등록).
-  // 구글은 도메인 속성(DNS TXT)으로 등록 예정이라 메타태그가 필요 없다 — 비워 둔다.
+  // 검색엔진 소유확인 메타태그 (2026-08-03 등록 — 네이버 서치어드바이저,
+  // 구글 서치콘솔 URL 접두어 속성).
   verification: {
     naver: "1eb7a06f9f3780ad1b592ff1aac2c0a5532295da",
-    google: "",
+    google: "1H-jySubFXmVBFaXcQVCAUKpXPI9mK_bmKe64dwZUVU",
   },
 
   // 초상권 동의 게이트. false면 전후 사진을 실사진 대신 플레이스홀더로 렌더한다.
