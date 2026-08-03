@@ -46,9 +46,9 @@ export default function FloatingCTA() {
         </a>
       )}
 
-      {SITE.links.instagram && (
+      {SITE.links.instagramWork && (
         <a
-          href={SITE.links.instagram}
+          href={SITE.links.instagramWork}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="인스타그램"
