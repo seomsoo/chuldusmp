@@ -17,6 +17,8 @@ interface DragMarqueeProps {
   speed?: number;
   /** 드래그·터치를 놓은 뒤 자동 흐름을 재개하기까지 대기(ms). */
   resumeDelayMs?: number;
+  /** 자동 흐름 방향을 뒤집는다(오른쪽으로). 드래그·관성에는 영향 없다. */
+  reverse?: boolean;
   className?: string;
   /** 리더기용 영역 이름 */
   label?: string;
@@ -36,6 +38,7 @@ export default function DragMarquee({
   children,
   speed = 42,
   resumeDelayMs = 2000,
+  reverse = false,
   className,
   label,
 }: DragMarqueeProps) {
@@ -93,7 +96,12 @@ export default function DragMarquee({
           // 재개할 때 갑자기 출발하지 않도록 속도를 짧게 페이드인한다
           autoFactor.current +=
             ((wantAuto ? 1 : 0) - autoFactor.current) * Math.min(1, dt * 5);
-          offset.current += (speed * autoFactor.current + momentum.current) * dt;
+          // reverse는 자동 흐름만 뒤집는다 — 관성(momentum)은 손이 만든
+          // 방향이므로 그대로 둔다.
+          offset.current +=
+            ((reverse ? -speed : speed) * autoFactor.current +
+              momentum.current) *
+            dt;
           momentum.current *= Math.exp(-dt / 0.325); // iOS 감속 곡선에 맞춘 시정수
           if (Math.abs(momentum.current) < 2) momentum.current = 0;
         }
@@ -104,7 +112,7 @@ export default function DragMarquee({
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [speed]);
+  }, [speed, reverse]);
 
   const endDrag = () => {
     if (!dragging.current) return;

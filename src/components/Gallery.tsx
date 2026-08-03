@@ -12,6 +12,7 @@ import { SITE } from "@/config/site";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Lightbox, { useLightbox } from "@/components/ui/Lightbox";
 import DragMarquee from "@/components/ui/DragMarquee";
+import VideoReel from "@/components/VideoReel";
 import Shot, { openable } from "@/components/Shot";
 
 // 전후 스트립에 인스타 카드를 끼우는 간격 — N장마다 한 장씩 지나간다.
@@ -137,6 +138,9 @@ export default function Gallery() {
             return cards;
           })}
         </DragMarquee>
+
+        {/* 시술 영상 릴 — 사진 스트립 바로 아래에서 무음 자동 재생으로 흐른다 */}
+        <VideoReel />
 
         {/* 인스타 유도 배너 (대표 요청, 2026-08-03) — 스트립 직후, "더 보고
             싶다"는 순간에 시술 계정으로 보낸다. 배너 전체가 링크다. */}

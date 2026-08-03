@@ -1,14 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { FOUNDER, CAREERS, POSTERS } from "@/content/founder";
+import { CAREER_VIDEOS } from "@/content/videos";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Lightbox, { useLightbox } from "@/components/ui/Lightbox";
+import VideoLightbox from "@/components/ui/VideoLightbox";
 import Marquee from "@/components/ui/Marquee";
+import DragMarquee from "@/components/ui/DragMarquee";
 import Shot from "@/components/Shot";
+import VideoCard from "@/components/VideoCard";
 
 export default function Founder() {
   const { lightbox, open, close, navigate } = useLightbox();
+  const [videoOpen, setVideoOpen] = useState<number | null>(null);
 
   return (
     <section id="about" className="bg-page">
@@ -97,10 +103,45 @@ export default function Founder() {
               </figure>
             ))}
           </Marquee>
+
+          {/* 대외활동 영상 줄 (대표 요청, 2026-08-04) — 위 포스터 줄과 함께
+              "사진 한 줄 / 영상 한 줄" 2단 구성이다(영상 두 줄 안은 사진까지
+              세 줄이 돼 어지럽다고 반려됨). 카드 높이를 포스터 줄(280/340px)과
+              맞추고 방향은 반대(왼쪽)로 엇갈린다. 별도 헤더는 두지 않는다 —
+              INTERNATIONAL ACTIVITY 라벨이 두 줄을 함께 묶는다(대표 확인,
+              2026-08-04). 무음 미리보기, 누르면 확대 뷰에서 소리 재생.
+              웹 사본은 540p다(videos.ts 주석 참고). */}
+          <DragMarquee
+            label="대외활동 영상"
+            speed={26}
+            className="mx-[calc(50%-50vw)] mt-10"
+          >
+            {CAREER_VIDEOS.map((v, i) => (
+              <VideoCard
+                key={v.src}
+                video={v}
+                suspended={videoOpen !== null}
+                onOpen={() => setVideoOpen(i)}
+                className="mr-4 w-[158px] border-ink/16 bg-ink/5 dk:w-[191px]"
+              />
+            ))}
+          </DragMarquee>
         </div>
       </ScrollReveal>
 
       <Lightbox lightbox={lightbox} onClose={close} onNavigate={navigate} />
+      <VideoLightbox
+        videos={CAREER_VIDEOS}
+        index={videoOpen}
+        onClose={() => setVideoOpen(null)}
+        onNavigate={(dir) =>
+          setVideoOpen((prev) =>
+            prev === null
+              ? null
+              : (prev + dir + CAREER_VIDEOS.length) % CAREER_VIDEOS.length,
+          )
+        }
+      />
     </section>
   );
 }

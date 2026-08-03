@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   ACADEMY,
   ACADEMY_FACTS,
@@ -7,13 +8,17 @@ import {
   RECRUIT,
   WEEK9,
 } from "@/content/academy";
+import { ACADEMY_VIDEO } from "@/content/videos";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Lightbox, { useLightbox } from "@/components/ui/Lightbox";
+import VideoLightbox from "@/components/ui/VideoLightbox";
 import DragScroller from "@/components/ui/DragScroller";
 import Shot from "@/components/Shot";
+import VideoCard from "@/components/VideoCard";
 
 export default function Academy() {
   const { lightbox, open, close, navigate } = useLightbox();
+  const [videoOpen, setVideoOpen] = useState<number | null>(null);
 
   return (
     <section id="academy" className="bg-page px-5 py-section dk:px-10 dk:py-section-dk">
@@ -57,6 +62,53 @@ export default function Academy() {
             </div>
           ))}
         </div>
+
+        {/* 커리큘럼 요약 영상 — 카드뉴스(상세)보다 먼저 나오는 80초 인트로
+            (2026-08-04). 스트립 카드가 아니라 단독 플레이어인 이유: 6주 과정의
+            한 항목이 아니라 아카데미 전체의 요약이라 스트립에 끼우면 위계가
+            꼬인다. 밝은 배경에 세로 영상만 두면 옆이 비어 보여서, 히어로·본점
+            카드와 같은 다크 면으로 감싼다 — 여백이 무드로 읽힌다.
+            무음 미리보기로 돌다가 누르면 소리 켜고 확대 재생. */}
+        <article className="relative mb-14 overflow-hidden border border-ink/16 bg-night text-night-text">
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-[linear-gradient(160deg,#23272C_0%,#1A1D21_55%,#2B2F35_100%)]"
+          />
+          <div aria-hidden className="scanlines absolute inset-0" />
+          {/* 워터마크 — 오른쪽 빈 면을 채우는 디스플레이 타이포. 장식이므로
+              스크린리더에서 숨긴다. */}
+          <span
+            aria-hidden
+            className="font-display pointer-events-none absolute right-2 -bottom-7 hidden text-[clamp(90px,12vw,168px)] leading-none tracking-[0.06em] text-night-text/7 dk:block"
+          >
+            MASTER CLASS
+          </span>
+          <div className="relative flex flex-col gap-8 px-5 py-7 dk:flex-row dk:items-center dk:gap-14 dk:px-12 dk:py-10">
+            {/* 모바일은 패널 안에서 가운데 정렬(인스타 배너와 같은 문법) —
+                74vw 카드가 좌측에 붙으면 오른쪽만 뜨면서 흘린 것처럼 보인다. */}
+            <VideoCard
+              video={ACADEMY_VIDEO}
+              suspended={videoOpen !== null}
+              onOpen={() => setVideoOpen(0)}
+              className="mx-auto w-[min(74vw,280px)] border-night-text/14 bg-night-panel dk:mx-0"
+            />
+            <div className="text-center dk:text-left">
+              <span className="text-[10px] font-bold tracking-[0.34em] text-steel-400">
+                ACADEMY FILM
+              </span>
+              <p className="mt-4 mb-0 text-[clamp(20px,2.6vw,30px)] leading-[1.35] font-extrabold tracking-[-0.03em] text-night-head">
+                1:1 창업 교육 과정,
+                <br />
+                80초로 먼저 보세요
+              </p>
+              <p className="mt-3 mb-0 max-w-[440px] text-[14.5px] leading-[1.75] text-steel-300">
+                실제 수업 현장과 주차별 커리큘럼을 담은 요약 영상입니다.
+                <br />
+                누르면 소리와 함께 크게 볼 수 있습니다.
+              </p>
+            </div>
+          </div>
+        </article>
 
         {/* 과정이 6주·9주 둘이라 스트립도 둘로 나눈다 — 같은 카드 폭(300px)으로
             동급 위계, 라벨(CURRICULUM · N주 과정)로만 구분한다. */}
@@ -156,6 +208,12 @@ export default function Academy() {
       </ScrollReveal>
 
       <Lightbox lightbox={lightbox} onClose={close} onNavigate={navigate} />
+      <VideoLightbox
+        videos={[ACADEMY_VIDEO]}
+        index={videoOpen}
+        onClose={() => setVideoOpen(null)}
+        onNavigate={() => {}}
+      />
     </section>
   );
 }

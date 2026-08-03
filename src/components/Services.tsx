@@ -4,14 +4,18 @@ import { Fragment, useState } from "react";
 import { SERVICES } from "@/content/services";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Lightbox, { useLightbox } from "@/components/ui/Lightbox";
+import VideoLightbox from "@/components/ui/VideoLightbox";
 import DragScroller from "@/components/ui/DragScroller";
 import Shot, { openable } from "@/components/Shot";
+import VideoCard from "@/components/VideoCard";
 
 export default function Services() {
   const [active, setActive] = useState(0);
+  const [videoOpen, setVideoOpen] = useState<number | null>(null);
   const { lightbox, open, close, navigate } = useLightbox();
   const svc = SERVICES[active];
   const shots = openable(svc.shots);
+  const videos = svc.videos ?? [];
 
   return (
     <section id="services" className="bg-page px-5 py-section dk:px-10 dk:py-section-dk">
@@ -94,6 +98,23 @@ export default function Services() {
             </p>
 
             <DragScroller label="시술 사진" className="mt-8 gap-3.5">
+              {/* 시술 영상 — 스트립 맨 앞(대표 지시, 2026-08-04). 무음으로
+                  흐르고, 누르면 소리 켜고 확대 재생. 폭은 사진 카드(4:5)와
+                  높이가 같아지는 9:16 환산치(340×5/4×9/16≈239px)로 잡아
+                  스트립 높이를 흔들지 않는다. */}
+              {videos.map((v, i) => (
+                <figure key={v.src} className="m-0 w-[min(55vw,239px)]">
+                  <VideoCard
+                    video={v}
+                    suspended={videoOpen !== null}
+                    onOpen={() => setVideoOpen(i)}
+                    className="w-full border-ink/16 bg-ink/5"
+                  />
+                  <figcaption className="mt-2.5 text-[11.5px] tracking-[-0.01em] text-steel-600">
+                    {v.label}
+                  </figcaption>
+                </figure>
+              ))}
               {svc.shots.map((im) => {
                 const idx = shots.findIndex((s) => s.src === im.src);
                 const canOpen = idx !== -1;
@@ -120,6 +141,18 @@ export default function Services() {
       </ScrollReveal>
 
       <Lightbox lightbox={lightbox} onClose={close} onNavigate={navigate} />
+      <VideoLightbox
+        videos={videos}
+        index={videoOpen}
+        onClose={() => setVideoOpen(null)}
+        onNavigate={(dir) =>
+          setVideoOpen((prev) =>
+            prev === null || videos.length === 0
+              ? null
+              : (prev + dir + videos.length) % videos.length,
+          )
+        }
+      />
     </section>
   );
 }

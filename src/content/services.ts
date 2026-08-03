@@ -1,5 +1,6 @@
 import { PROCEDURE_IMAGES } from "./images";
 import { pick, type Media } from "./media";
+import { SCAR_COVER_VIDEOS, type ProcedureVideo } from "./videos";
 
 export interface Service {
   num: string;
@@ -8,6 +9,8 @@ export interface Service {
   desc: string;
   quote: string;
   shots: Media[];
+  /** 사진 스트립 맨 앞에 붙는 시술 영상. 없는 시술은 생략한다. */
+  videos?: ProcedureVideo[];
 }
 
 const p = (file: string, caption: string) =>
@@ -80,6 +83,8 @@ export const SERVICES: Service[] = [
     en: "SCAR COVER",
     desc: "모발이식 절개선, 두피 수술 자국처럼 모발이 자라지 않는 흉터 위에 점을 얹어 주변 밀도와 맞춥니다. 흉터의 폭과 색에 따라 회차를 나눠 진행합니다.",
     quote: "가릴 수 없던 흉터, 30분이면 가릴 수 있습니다.",
+    // 시술 영상 2편을 스트립 맨 앞에 — 대표 지시(2026-08-04).
+    videos: SCAR_COVER_VIDEOS,
     shots: [
       p("procedure-scar-cover-09", "정면 · 측면 전후"),
       p("procedure-scar-cover-10", "뒤통수 흉터 전후"),
