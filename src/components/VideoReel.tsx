@@ -19,11 +19,12 @@ export default function VideoReel() {
   return (
     <>
       {/* 별도 헤더 없이 사진 스트립 아래 바로 잇는다 — 라벨·안내 문구는
-          과하다고 빠졌다(대표 확인, 2026-08-04). */}
+          과하다고 빠졌다(대표 확인, 2026-08-04). 간격은 FOUNDER의
+          포스터→영상 줄과 같은 40px — 24px는 사진 줄에 붙어 보였다. */}
       <DragMarquee
         label="시술 영상"
         speed={30}
-        className="mx-[calc(50%-50vw)] mt-6"
+        className="mx-[calc(50%-50vw)] mt-10"
       >
         {PROCEDURE_VIDEOS.map((v, i) => (
           <VideoCard

@@ -17,7 +17,10 @@ export default function Location() {
   return (
     <section id="location" className="bg-page px-5 py-section dk:px-10 dk:py-section-dk">
       <ScrollReveal className="mx-auto max-w-[1240px]">
-        <div className="split grid items-start gap-13 dk:grid-cols-[5fr_7fr]">
+        {/* 오른쪽 카드(4:5, ~875px)가 왼쪽 텍스트 컬럼보다 한참 길다 —
+            상단 정렬이면 왼쪽 아래가 통째로 비어 보여서 데스크톱은 세로
+            중앙에 앉힌다(전면 스크린샷 점검, 2026-08-04). */}
+        <div className="split grid items-start gap-13 dk:grid-cols-[5fr_7fr] dk:items-center">
           <div>
             <span className="text-[10px] font-bold tracking-[0.34em] text-steel-500">
               DIRECTIONS

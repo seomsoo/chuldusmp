@@ -18,7 +18,8 @@ export default function Hero() {
       id="hero"
       className="relative flex min-h-svh flex-col overflow-hidden bg-night px-5 pt-nav pb-[62px] dk:px-6 dk:pb-0"
     >
-      {/* blur-[3px]: 영상이 보여야 하므로 아주 살짝만. 디테일의 날만 죽인다.
+      {/* blur-[2px]: 영상이 보여야 하므로 아주 살짝만. 디테일의 날만 죽인다.
+            (3px에서 한 단계 낮춤 — 대표 요청, 2026-08-04.)
             글자 가독성은 아래 radial 스크림과 헤드라인 drop-shadow가 책임진다.
           scale-[1.4]: brand.mp4에 위아래 89px씩 검은 레터박스가 구워져 있어 잘라내야 하고
             (1.35배면 충분), 블러가 가장자리를 먹으므로 여유분을 조금 더 준다. */}
@@ -34,7 +35,7 @@ export default function Hero() {
       <HeroVideo
         src="/videos/brand.mp4"
         poster="/images/hero-poster.webp"
-        className="absolute inset-0 h-full w-full scale-[1.4] object-cover opacity-90 blur-[3px]"
+        className="absolute inset-0 h-full w-full scale-[1.4] object-cover opacity-90 blur-[2px]"
       />
       {/* 화면 전체를 어둡게 덮는 대신, 글자가 앉는 가운데에만 어둠을 고이게 한다.
           가장자리는 그대로라 영상이 살아 있고, 글자 뒤에서만 대비가 확보된다. */}
