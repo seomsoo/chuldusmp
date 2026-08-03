@@ -99,11 +99,12 @@ export default function Services() {
 
             <DragScroller label="시술 사진" className="mt-8 gap-3.5">
               {/* 시술 영상 — 스트립 맨 앞(대표 지시, 2026-08-04). 무음으로
-                  흐르고, 누르면 소리 켜고 확대 재생. 폭은 사진 카드(4:5)와
-                  높이가 같아지는 9:16 환산치(340×5/4×9/16≈239px)로 잡아
-                  스트립 높이를 흔들지 않는다. */}
+                  흐르고, 누르면 소리 켜고 확대 재생. 폭은 이 탭 사진 카드와
+                  높이가 같아지는 9:16 환산치다 — 흉터커버 사진은 1:1
+                  (1080×1080)이라 340×9/16≈192px. 4:5 사진 탭에 영상을
+                  추가하게 되면 이 폭을 다시 계산할 것. */}
               {videos.map((v, i) => (
-                <figure key={v.src} className="m-0 w-[min(55vw,239px)]">
+                <figure key={v.src} className="m-0 w-[min(44vw,192px)]">
                   <VideoCard
                     video={v}
                     suspended={videoOpen !== null}
