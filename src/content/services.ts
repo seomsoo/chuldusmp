@@ -35,10 +35,16 @@ export const SERVICES: Service[] = [
     quote: "머리를 넘길 때 가장 먼저 보이는 곳입니다.",
     // 여성 가르마 전용 카드뉴스로 전체 교체(2026-08-01).
     // 순서는 수령 번호 기준 2→1→3→4 — 설명 카드를 앞세우라는 대표 지시(2026-08-01).
+    // 전후 비교 5장(21~25) 추가(2026-08-03) — 첫 장과 마지막 장 사이에 넣으라는 대표 지시.
     shots: [
       p("procedure-part-line-18", "시술 설명과 결과"),
       p("procedure-part-line-17", "시술 전후 모음"),
       p("procedure-part-line-19", "정면 · 정수리 전후"),
+      p("procedure-part-line-21", "가르마 부위 근접 전후"),
+      p("procedure-part-line-22", "정수리 · 가르마 전후"),
+      p("procedure-part-line-23", "정면 전후"),
+      p("procedure-part-line-24", "두피 근접 전후"),
+      p("procedure-part-line-25", "위에서 본 정수리 전후"),
       p("procedure-part-line-20", "시술 장면 · 니들 디테일"),
     ],
   },

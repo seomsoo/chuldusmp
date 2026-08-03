@@ -30,6 +30,8 @@ export type SiteImage = {
   alt: string;
   /** 같은 카드뉴스/시술 묶음. 캐러셀·필터 단위로 쓴다. */
   group?: string;
+  /** 성별 — 전후 갤러리의 "여성" 필터 축. 표기가 없으면 남성 또는 판별 불가. */
+  gender?: "female";
 };
 
 /** 가맹점 모집 카드뉴스 */
@@ -316,6 +318,7 @@ export const PROCEDURE_IMAGES: readonly SiteImage[] = [
     height: 1350,
     alt: "여성 가르마 두피문신 시술 전후 사진을 모은 표지 이미지",
     group: "part-line",
+    gender: "female",
   },
   {
     src: "/images/procedure/procedure-part-line-18.webp",
@@ -323,6 +326,7 @@ export const PROCEDURE_IMAGES: readonly SiteImage[] = [
     height: 1350,
     alt: "여성 가르마 두피문신 시술 설명과 시술 후 정수리 사진",
     group: "part-line",
+    gender: "female",
   },
   {
     src: "/images/procedure/procedure-part-line-19.webp",
@@ -330,6 +334,48 @@ export const PROCEDURE_IMAGES: readonly SiteImage[] = [
     height: 1350,
     alt: "여성 가르마 두피문신 정면·정수리의 시술 전후 비교",
     group: "part-line",
+    gender: "female",
+  },
+  // 전후 비교 5장 추가 (2026-08-03 수령, 추가 폴더). 표지(17)와 시술 장면(20) 사이에 배치.
+  {
+    src: "/images/procedure/procedure-part-line-21.webp",
+    width: 1080,
+    height: 1350,
+    alt: "여성 가르마 두피문신 가르마 부위 근접 시술 전후 비교",
+    group: "part-line",
+    gender: "female",
+  },
+  {
+    src: "/images/procedure/procedure-part-line-22.webp",
+    width: 1080,
+    height: 1350,
+    alt: "여성 가르마 두피문신 정수리 위에서 본 시술 전후 비교",
+    group: "part-line",
+    gender: "female",
+  },
+  {
+    src: "/images/procedure/procedure-part-line-23.webp",
+    width: 1080,
+    height: 1350,
+    alt: "여성 가르마 두피문신 정면에서 본 시술 전후 비교",
+    group: "part-line",
+    gender: "female",
+  },
+  {
+    src: "/images/procedure/procedure-part-line-24.webp",
+    width: 1080,
+    height: 1350,
+    alt: "여성 가르마 두피문신 두피 근접 시술 전후 비교",
+    group: "part-line",
+    gender: "female",
+  },
+  {
+    src: "/images/procedure/procedure-part-line-25.webp",
+    width: 1080,
+    height: 1350,
+    alt: "여성 가르마 두피문신 위에서 내려다본 정수리 시술 전후 비교",
+    group: "part-line",
+    gender: "female",
   },
   {
     src: "/images/procedure/procedure-part-line-20.webp",
@@ -337,6 +383,7 @@ export const PROCEDURE_IMAGES: readonly SiteImage[] = [
     height: 1350,
     alt: "여성 가르마 두피문신 시술 장면과 니들 근접 사진",
     group: "part-line",
+    gender: "female",
   },
 ];
 
@@ -567,6 +614,7 @@ export const BEFORE_AFTER_IMAGES: readonly SiteImage[] = [
     height: 1350,
     alt: "여성 가르마·정수리 두피문신 시술 전후 비교",
     group: "crown",
+    gender: "female",
   },
   {
     src: "/images/before-after/before-after-crown-09.webp",
@@ -574,6 +622,7 @@ export const BEFORE_AFTER_IMAGES: readonly SiteImage[] = [
     height: 1350,
     alt: "여성 앞 가르마 두피문신 시술 전후 비교",
     group: "crown",
+    gender: "female",
   },
   {
     src: "/images/before-after/before-after-crown-10.webp",
@@ -581,6 +630,7 @@ export const BEFORE_AFTER_IMAGES: readonly SiteImage[] = [
     height: 1350,
     alt: "여성 가르마 옆 근접 두피문신 시술 전후 비교",
     group: "crown",
+    gender: "female",
   },
   {
     src: "/images/before-after/before-after-hairline-11.webp",
