@@ -5,8 +5,9 @@ import { SITE, telHref } from "@/config/site";
 import { SERVICES } from "@/content/services";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
+// 00 소개 탭은 시술이 아니므로 희망 시술 목록에서 제외한다.
 const TOPICS = [
-  ...SERVICES.map((s) => s.name),
+  ...SERVICES.filter((s) => !s.intro).map((s) => s.name),
   "아카데미 문의",
   "가맹 · 창업 문의",
 ];

@@ -1,4 +1,4 @@
-import { PROCEDURE_IMAGES } from "./images";
+import { INTRO_IMAGES, PROCEDURE_IMAGES } from "./images";
 import { pick, type Media } from "./media";
 import { SCAR_COVER_VIDEOS, type ProcedureVideo } from "./videos";
 
@@ -11,12 +11,34 @@ export interface Service {
   shots: Media[];
   /** 사진 스트립 맨 앞에 붙는 시술 영상. 없는 시술은 생략한다. */
   videos?: ProcedureVideo[];
+  /** 시술이 아닌 소개 탭 — 상담 폼의 희망 시술 목록 등에서 제외한다. */
+  intro?: boolean;
 }
 
 const p = (file: string, caption: string) =>
   pick(PROCEDURE_IMAGES, file, caption);
+const ic = (file: string, caption: string) => pick(INTRO_IMAGES, file, caption);
 
 export const SERVICES: Service[] = [
+  // 00 소개 탭 — 히어로 아래 단독 인트로 섹션을 대체한다(페이지가 너무
+  // 길다는 대표 피드백으로 이관, 2026-08-04). 탭 구조라 페이지 높이 부담이
+  // 없고, 기본 선택 탭이어서 카드가 숨지 않는다. 카드는 대표 제작 카드뉴스
+  // 4장(소개 → 전후 모음 → 과정 1 → 과정 2), 문구도 카드에서 가져왔다.
+  {
+    num: "00",
+    name: "출두 소개 · 시술 과정",
+    en: "BRAND & PROCESS",
+    intro: true,
+    desc: "상담과 커트, 디자인, 니들 작업을 거쳐 스타일링 컨설팅으로 마무리합니다. 두피문신과 스타일링을 함께 진행하는 것이 출두의 방식입니다.",
+    quote:
+      "모든 고객님이 동일한 디자인일 필요는 없습니다. 맞춤형 스타일을 만들어드립니다.",
+    shots: [
+      ic("intro-card-01", "브랜드 소개 — 두피문신과 스타일링"),
+      ic("intro-card-02", "시술 전후 모음"),
+      ic("intro-card-03", "시술 과정 01–03 · 상담부터 디자인까지"),
+      ic("intro-card-04", "시술 과정 04–05 · 작업과 스타일링"),
+    ],
+  },
   {
     num: "01",
     name: "남/녀 헤어라인 & M자 탈모",
