@@ -20,7 +20,9 @@ export default function Services() {
   return (
     <section id="services" className="bg-page px-5 py-section dk:px-10 dk:py-section-dk">
       <ScrollReveal className="mx-auto max-w-[1240px]">
-        <div className="split mb-14 grid items-end gap-14 dk:grid-cols-[5fr_7fr]">
+        {/* 모바일은 제목·설명이 세로로 쌓이므로 gap을 좁힌다 — 56px면 두
+            문단이 남남처럼 떨어져 보인다(대표 피드백, 2026-08-04). */}
+        <div className="split mb-14 grid items-end gap-6 dk:grid-cols-[5fr_7fr] dk:gap-14">
           <div>
             <span className="text-[10px] font-bold tracking-[0.34em] text-steel-500">
               PROCEDURE

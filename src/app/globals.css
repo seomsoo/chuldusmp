@@ -163,6 +163,12 @@ h1, h2, h3, p, li, dt, dd, figcaption, blockquote {
   min-width: 0;
   max-width: 100%;
   padding-bottom: 10px;
+  /* 스크롤바 숨김(대표 확인, 2026-08-04) — "더 있다"는 신호는 잘린 카드와
+     좌우 화살표가 이미 하므로 바는 소음이다. 스크롤 기능은 그대로 산다. */
+  scrollbar-width: none;
+}
+.hs::-webkit-scrollbar {
+  display: none;
 }
 .hs > * {
   scroll-snap-align: start;
