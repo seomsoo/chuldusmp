@@ -184,13 +184,22 @@ export default function Academy() {
                 <figure
                   key={r.src}
                   onClick={() => open(RECRUIT, i)}
-                  className="m-0 w-[min(60vw,240px)] cursor-zoom-in"
+                  className="m-0 cursor-zoom-in"
                 >
-                  <Shot
-                    media={r}
-                    sizes="(max-width: 900px) 60vw, 240px"
-                    className="border border-ink/16"
-                  />
+                  {/* 모집 카드는 4:5와 1:1이 섞여 있다 — 폭을 고정하면 아랫단이
+                      들쭉날쭉해서, 포스터 레일처럼 높이를 고정하고 폭이 비율을
+                      따라오게 한다(크롭 없음). 높이 280은 커리큘럼(300px 폭,
+                      375px 높이)보다 한 단계 작게 — 위계 유지. */}
+                  <div
+                    style={{ aspectRatio: `${r.width} / ${r.height}` }}
+                    className="h-[min(75vw,280px)]"
+                  >
+                    <Shot
+                      media={r}
+                      sizes="(max-width: 900px) 75vw, 280px"
+                      className="border border-ink/16"
+                    />
+                  </div>
                 </figure>
               ))}
             </DragScroller>

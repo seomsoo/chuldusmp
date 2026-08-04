@@ -34,6 +34,34 @@ export type SiteImage = {
   gender?: "female";
 };
 
+/** 브랜드 인트로 카드뉴스 (2026-08-04 수령) — 히어로 아래 인트로 스트립 전용 */
+export const INTRO_IMAGES: readonly SiteImage[] = [
+  {
+    src: "/images/intro/intro-card-01.webp",
+    width: 1080,
+    height: 1350,
+    alt: "스타일링 전문 업체 출두 SMP 소개 — 두피문신 정의와 시술 경험, 맞춤 스타일링 안내",
+  },
+  {
+    src: "/images/intro/intro-card-02.webp",
+    width: 1080,
+    height: 1350,
+    alt: "남성·여성 고객 열 명의 두피문신 시술 전·디자인·후 3컷 비교 모음",
+  },
+  {
+    src: "/images/intro/intro-card-03.webp",
+    width: 1080,
+    height: 1350,
+    alt: "두피문신 진행 과정 1편 — 상담, 커트, 디자인 단계 사진과 설명",
+  },
+  {
+    src: "/images/intro/intro-card-04.webp",
+    width: 1080,
+    height: 1350,
+    alt: "두피문신 진행 과정 2편 — 니들 작업, 스타일링 및 컨설팅 단계 사진과 설명",
+  },
+];
+
 /** 가맹점 모집 카드뉴스 */
 export const FRANCHISE_IMAGES: readonly SiteImage[] = [
   {
@@ -394,7 +422,7 @@ export const PROCEDURE_IMAGES: readonly SiteImage[] = [
   },
 ];
 
-/** 아카데미 — 커리큘럼 8장(master-class-curriculum)과 모집 카드뉴스 7장(academy-recruit) */
+/** 아카데미 — 커리큘럼 8장(master-class-curriculum)과 모집 카드뉴스 9장(academy-recruit) */
 export const ACADEMY_IMAGES: readonly SiteImage[] = [
   {
     src: "/images/academy/academy-curriculum-01.webp",
@@ -457,6 +485,22 @@ export const ACADEMY_IMAGES: readonly SiteImage[] = [
     width: 1080,
     height: 1350,
     alt: "참관자들에게 시연하는 강사 사진이 담긴 출두 아카데미 소개 표지",
+    group: "academy-recruit",
+  },
+  // 16·17은 파일 번호와 달리 스트립 두번째·세번째 자리 — 대표 지시(2026-08-04).
+  // RECRUIT 순서는 이 카탈로그의 나열 순서를 그대로 따른다.
+  {
+    src: "/images/academy/academy-recruit-16.webp",
+    width: 1080,
+    height: 1350,
+    alt: "국내외 대회·행사 활동 모음 — K-뷰티를 알리는 SMP 스타일링 브랜드 출두",
+    group: "academy-recruit",
+  },
+  {
+    src: "/images/academy/academy-recruit-17.webp",
+    width: 1080,
+    height: 1350,
+    alt: "출두 아카데미 소개 — 기초·데모 실습·마케팅 교육과 수료생 배출 기록",
     group: "academy-recruit",
   },
   {

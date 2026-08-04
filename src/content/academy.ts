@@ -47,7 +47,7 @@ export const WEEK9: Media[] = pickGroup(ACADEMY_IMAGES, "academy-week9").map(
   (m) => ({ ...m, caption: "출두 마스터 아카데미 9주 과정" }),
 );
 
-// 수강생 모집 카드뉴스(09~15). 커리큘럼과 달리 순번·제목이 없는 통짜 묶음이라
+// 수강생 모집 카드뉴스(09~15 + 두번째·세번째 자리의 16·17). 순번·제목이 없는 통짜 묶음이라
 // group 태그로 통째로 꺼낸다 — 카드가 추가되면 images.ts에 group만 달면 따라온다.
 export const RECRUIT: Media[] = pickGroup(ACADEMY_IMAGES, "academy-recruit").map(
   (m) => ({ ...m, caption: "출두 마스터 아카데미 수강생 모집" }),
