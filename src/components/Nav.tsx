@@ -4,13 +4,17 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { SITE } from "@/config/site";
 
+// mobile: 모바일 바에도 남는 앵커. 페이지가 모바일 기준 ~17,000px라 이동
+// 수단이 필요한데, 햄버거 메뉴는 안 눌러볼 것 같다는 대표 판단(2026-08-04)으로
+// 가장 찾는 두 곳(시술·아카데미)만 바에 직접 노출한다. 폭이 375px에 빠듯하니
+// mobile 앵커를 늘리면 반드시 실기기 폭에서 줄바꿈을 확인할 것.
 const ANCHORS = [
-  { href: "#services", label: "시술" },
+  { href: "#services", label: "시술", mobile: true },
   { href: "#gallery", label: "전후" },
   { href: "#reviews", label: "후기" },
   { href: "#about", label: "대표" },
   { href: "#network", label: "지점" },
-  { href: "#academy", label: "아카데미" },
+  { href: "#academy", label: "아카데미", mobile: true },
   { href: "#franchise", label: "가맹" },
   { href: "#location", label: "오시는 길" },
 ];
@@ -115,13 +119,16 @@ export default function Nav() {
         />
       </a>
 
-      <div className="flex items-center gap-6 text-[13px] tracking-[-0.01em]">
+      {/* 모바일은 gap을 한 단계 좁힌다 — 시술·아카데미·CTA가 375px에 함께 선다. */}
+      <div className="flex items-center gap-4 text-[13px] tracking-[-0.01em] dk:gap-6">
         {ANCHORS.map((a) => (
           <a
             key={a.href}
             href={a.href}
             onClick={holdVisible}
-            className="hidden text-ink-soft transition-colors hover:text-ink dk:inline"
+            className={`text-ink-soft transition-colors hover:text-ink ${
+              a.mobile ? "inline" : "hidden dk:inline"
+            }`}
           >
             {a.label}
           </a>
